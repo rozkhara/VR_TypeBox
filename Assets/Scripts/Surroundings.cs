@@ -2,9 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Valve.VR;
+using TMPro;
 
 public class Surroundings : MonoBehaviour
 {
+    private string[] leftkeyName = new string[4] {"QWERT", "qwert", "asdfg", "zxcv"};
+    private string[] rightkeyName = new string[4] { "BSCOP", "yuiop", "hjkl", "bnm"};
+
+
     private GameObject go;
     private Quaternion lookDir;
     private const float distance = 0.6f;
@@ -17,18 +22,37 @@ public class Surroundings : MonoBehaviour
     {
         leftKeyObjects = new();
         rightKeyObjects = new();
-        for (int i = 0; i < 3; i++)
+        char temp;
+        for (int i = 0; i < 4; i++)
         {
             leftKeyObjects.Add(new List<GameObject>());
             rightKeyObjects.Add(new List<GameObject>());
-            for (int j = 0; j < 5; j++)
+            for (int j = leftkeyName[i].Length - 1; j >=0; j--)
             {
                 go = Instantiate(keyObject);
+                temp = leftkeyName[i][j];
+                go.name = temp.ToString();
+                go.GetComponentInChildren<TextMeshPro>().text = AutomateKR.SOUND_TABLE[AutomateKR.HANGULE_KEY_TABLE[temp]].ToString();
                 leftKeyObjects[i].Add(go);
+            }
+            for (int j = 0; j < rightkeyName[i].Length; j++)
+            {
                 go = Instantiate(keyObject);
+                temp = rightkeyName[i][j];
+                go.name = temp.ToString();
+                switch (temp)
+                {
+                    case 'B':
+                    case 'S':
+                    case 'C':
+                        go.GetComponentInChildren<TextMeshPro>().text = temp.ToString();
+                        break;
+                    default:
+                        go.GetComponentInChildren<TextMeshPro>().text = AutomateKR.SOUND_TABLE[AutomateKR.HANGULE_KEY_TABLE[temp]].ToString();
+                        break;
+                }
                 rightKeyObjects[i].Add(go);
             }
-
         }
         lookDir = this.gameObject.transform.rotation;
     }

@@ -26,9 +26,14 @@ public class InputManager : MonoBehaviour
         }
     }
 
+    void Awake()
+    {
+        KeyInteract._Keybord = this;
+    }
+
     private void Start()
     {
-        mTextField.text = "입력한 단어";
+        mTextField.text = "키를 누르세요.";
     }
 
     public void Clear()
@@ -39,14 +44,14 @@ public class InputManager : MonoBehaviour
     }
 
     // 한글키
-    /*
+    
     public void KeyDownHangul(char _key)
     {
         mAutomateKR.SetKeyCode(_key);
 
         TextField = mAutomateKR.completeText + mAutomateKR.ingWord;
     }
-    */
+    
 
     // 특수키 KeyDown() 추가해야함... 
     // Backspace, Space, Enter ?

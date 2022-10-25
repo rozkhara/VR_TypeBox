@@ -9,7 +9,7 @@ public class AutomateKR
 {
 
     public static int KEY_CODE_SPACE = -1;      // 띄어쓰기
-    public static int KEY_CODE_ENTER = -2;      // 내려쓰기
+    public static int KEY_CODE_ENTER = -2;      // 내려쓰기 -> 완료 버튼?
     public static int KEY_CODE_BACKSPACE = -3;      // 지우기
 
     public static Dictionary<char, int> HANGULE_KEY_TABLE = new Dictionary<char, int>
@@ -26,7 +26,7 @@ public class AutomateKR
         {'p', 24},  {'P', 26},
 
         {'a', 6},   {'A', 6},
-        {'s', 2},   {'S', 2},
+        {'s', 2},   {'S', -1}, //{'S', 2},
         {'d', 11},  {'D', 11},
         {'f', 5},   {'F', 5},
         {'g', 18},  {'G', 18},
@@ -37,15 +37,15 @@ public class AutomateKR
 
         {'z', 15},  {'Z', 15},
         {'x', 16},  {'X', 16},
-        {'c', 14},  {'C', 14},
+        {'c', 14},  {'C', -2}, //{'C', 14},
         {'v', 17},  {'V', 17},
-        {'b', 36},  {'B', 36},
+        {'b', 36},  {'B', -3}, //{'B', 36},
         {'n', 32},  {'N', 32},
         {'m', 37},  {'M', 37},
     };
 
     // 초성, 중성, 종성 테이블.
-    static string SOUND_TABLE =
+    public static string SOUND_TABLE =
     /* 초성 19자 0 ~ 18 */
     "ㄱㄲㄴㄷㄸㄹㅁㅂㅃㅅㅆㅇㅈㅉㅊㅋㅌㅍㅎ" +
     /* 중성 21자 19 ~ 39 */
@@ -237,12 +237,17 @@ public class AutomateKR
             }
             else if (nKeyCode == KEY_CODE_ENTER) // 내려쓰기
             {
-                if (ingWord != null)
+                // 내려 쓰기 대신 제출 기능 구현
+                Clear();
+
+                /*
+                 if (ingWord != null)
                     completeText += ingWord;
 
                 completeText += "\r\n";
 
                 ingWord = null;
+                 */
             }
             else if (nKeyCode == KEY_CODE_BACKSPACE) // 지우기
             {

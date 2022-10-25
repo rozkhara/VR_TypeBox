@@ -461,7 +461,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb430d7938661a54b8b2cc9120cde0bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inputField: {fileID: 229305615}
+  mTextField: {fileID: 229305615}
 --- !u!4 &568377301
 Transform:
   m_ObjectHideFlags: 0
