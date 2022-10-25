@@ -5,22 +5,84 @@ using TMPro;
 
 public class InputManager : MonoBehaviour
 {
-    public TextMeshProUGUI inputField = null;
+    AutomateKR mAutomateKR = new AutomateKR();
+    public TextMeshProUGUI mTextField = null;
+    public string TextField
+    {
+        set
+        {
+            if (mTextField != null)
+            {
+                mTextField.text = value;
+            }
+        }
+        get
+        {
+            if (mTextField != null)
+            {
+                return mTextField.text;
+            }
+            return "";
+        }
+    }
 
     private void Start()
     {
-        inputField.text = "입력한 단어";
+        mTextField.text = "입력한 단어";
     }
 
-    public void InsertChar(string c)
+    public void Clear()
     {
+        mAutomateKR.Clear();
+
+        TextField = mAutomateKR.completeText + mAutomateKR.ingWord;
     }
 
-    public void DeleteChar()
+    // 한글키
+    /*
+    public void KeyDownHangul(char _key)
     {
-        if (inputField.text.Length > 0)
+        mAutomateKR.SetKeyCode(_key);
+
+        TextField = mAutomateKR.completeText + mAutomateKR.ingWord;
+    }
+    */
+
+    // 특수키 KeyDown() 추가해야함... 
+    // Backspace, Space, Enter ?
+
+    /*public void KeyDown(VirtualKey _key)
+    {
+        switch(_key.KeyType)
         {
-            inputField.text = inputField.text.Substring(0, inputField.text.Length - 1);
+            case VirtualKey.kType.kBackspace:
+                {
+                    mAutomateKR.SetKeyCode(AutomateKR.KEY_CODE_BACKSPACE);
+
+                }
+                break;
+            case VirtualKey.kType.kSpace:
+                {
+                    mAutomateKR.SetKeyCode(AutomateKR.KEY_CODE_SPACE);
+                }
+                break;
         }
+
+        TextField = mAutomateKR.completeText + mAutomateKR.ingWord;
+    }*/
+
+/*
+public void DeleteChar()
+{
+    if (mTextField.text.Length > 0)
+    {
+        mTextField.text = mTextField.text.Substring(0, mTextField.text.Length - 1);
     }
+}
+*/
+
+public AutomateKR.HAN_STATUS GetStatus()
+{
+    return mAutomateKR.GetStatus();
+}
 }
