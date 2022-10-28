@@ -6,13 +6,14 @@ using TMPro;
 
 public class Surroundings : MonoBehaviour
 {
-    private string[] leftkeyName = new string[4] {"QWERT", "qwert", "asdfg", "zxcv"};
-    private string[] rightkeyName = new string[4] { "BSCOP", "yuiop", "hjkl", "bnm"};
-
+    private readonly string[] leftkeyName = new string[4] { "QWERT", "qwert", "asdfg", "zxcv" };
+    private readonly string[] rightkeyName = new string[4] { "BSCOP", "yuiop", "hjkl", "bnm" };
+    private const float distance = 0.7f;
+    private const float angleVertical = 13f;
+    private const float angleHorizontal = 13f;
 
     private GameObject go;
     private Quaternion lookDir;
-    private const float distance = 0.6f;
     private List<List<GameObject>> leftKeyObjects = null;
     private List<List<GameObject>> rightKeyObjects = null;
 
@@ -27,7 +28,7 @@ public class Surroundings : MonoBehaviour
         {
             leftKeyObjects.Add(new List<GameObject>());
             rightKeyObjects.Add(new List<GameObject>());
-            for (int j = leftkeyName[i].Length - 1; j >=0; j--)
+            for (int j = leftkeyName[i].Length - 1; j >= 0; j--)
             {
                 go = Instantiate(keyObject);
                 temp = leftkeyName[i][j];
@@ -54,7 +55,7 @@ public class Surroundings : MonoBehaviour
                 rightKeyObjects[i].Add(go);
             }
         }
-        lookDir = this.gameObject.transform.rotation;
+        DirectionReset();
     }
     private void Update()
     {
@@ -64,45 +65,51 @@ public class Surroundings : MonoBehaviour
         {
             DirectionReset();
             //Debug.Log("Both Buttons Pressed");
+            SetNewPosRot();
         }
 
-        SetNewPosRot();
     }
 
     private void SetNewPosRot()
     {
         Vector3 position = this.gameObject.transform.position;
-        Vector3 translateVector = new Vector3(0f, 0f, distance);
+        Vector3 translateVector = new(0f, 0f, distance);
         Quaternion newDir = lookDir;
+        Vector3 newRight = Vector3.Cross(-this.gameObject.transform.forward, Vector3.up);
         foreach (List<GameObject> items in rightKeyObjects)
         {
             Quaternion basedir = newDir;
+            newDir = Quaternion.AngleAxis(-angleVertical, newRight) * basedir;
+
+            newDir = Quaternion.AngleAxis(angleHorizontal/2, Vector3.up) * newDir;
             foreach (GameObject GO in items)
             {
-                newDir = Quaternion.AngleAxis(15f, Vector3.up) * newDir;
                 Vector3 newPos = newDir * translateVector + position;
                 GO.transform.SetPositionAndRotation(newPos, Quaternion.LookRotation(newPos - this.gameObject.transform.position, Vector3.up));
+                newDir = Quaternion.AngleAxis(angleHorizontal, Vector3.up) * newDir;
             }
-            newDir = Quaternion.AngleAxis(15f, Vector3.right) * basedir;
+            newDir = Quaternion.AngleAxis(angleVertical, newRight) * basedir;
         }
         newDir = lookDir;
         foreach (List<GameObject> items in leftKeyObjects)
         {
             Quaternion basedir = newDir;
+            newDir = Quaternion.AngleAxis(-angleVertical, newRight) * basedir;
+
+            newDir = Quaternion.AngleAxis(-angleHorizontal/2, Vector3.up) * newDir;
             foreach (GameObject GO in items)
             {
-                newDir = Quaternion.AngleAxis(-15f, Vector3.up) * newDir;
                 Vector3 newPos = newDir * translateVector + position;
                 GO.transform.SetPositionAndRotation(newPos, Quaternion.LookRotation(newPos - this.gameObject.transform.position, Vector3.up));
+                newDir = Quaternion.AngleAxis(-angleHorizontal, Vector3.up) * newDir;
             }
-            newDir = Quaternion.AngleAxis(15f, Vector3.right) * basedir;
+            newDir = Quaternion.AngleAxis(angleVertical, newRight) * basedir;
         }
     }
 
     private void DirectionReset()
     {
-        lookDir = this.gameObject.transform.rotation;
+        Vector3 temp = this.gameObject.transform.eulerAngles;
+        lookDir = Quaternion.Euler(new Vector3(temp.x, temp.y, 0f));
     }
-
-
 }
