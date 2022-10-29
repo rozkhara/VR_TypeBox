@@ -9,39 +9,51 @@ public class AutomateKR
 {
 
     public static int KEY_CODE_SPACE = -1;      // 띄어쓰기
-    public static int KEY_CODE_ENTER = -2;      // 내려쓰기 -> 완료 버튼?
+    public static int KEY_CODE_ENTER = -2;      // 완료 or 클리어
     public static int KEY_CODE_BACKSPACE = -3;      // 지우기
 
     public static Dictionary<char, int> HANGULE_KEY_TABLE = new Dictionary<char, int>
     {
-        {'q', 7},   {'Q', 8},
-        {'w', 12},  {'W', 13},
-        {'e', 3},   {'E', 4},
-        {'r', 0},   {'R', 1},
-        {'t', 9},   {'T', 10},
-        {'y', 31},  {'Y', 31},
-        {'u', 25},  {'U', 25},
-        {'i', 21},  {'I', 21},
-        {'o', 20},  {'O', 22},
-        {'p', 24},  {'P', 26},
+        {'Q', 8},
+        {'W', 13},
+        {'E', 4},
+        {'R', 1},
+        {'T', 10},
+        {'O', 22},
+        {'P', 26},
 
-        {'a', 6},   {'A', 6},
-        {'s', 2},   {'S', -1}, //{'S', 2},
-        {'d', 11},  {'D', 11},
-        {'f', 5},   {'F', 5},
-        {'g', 18},  {'G', 18},
-        {'h', 27},  {'H', 27},
-        {'j', 23},  {'J', 23},
-        {'k', 19},  {'K', 19},
-        {'l', 39},  {'L', 39},
+        {'q', 7},
+        {'w', 12},
+        {'e', 3},
+        {'r', 0},
+        {'t', 9},
+        {'y', 31},
+        {'u', 25},
+        {'i', 21},
+        {'o', 20},
+        {'p', 24},
 
-        {'z', 15},  {'Z', 15},
-        {'x', 16},  {'X', 16},
-        {'c', 14},  {'C', -2}, //{'C', 14},
-        {'v', 17},  {'V', 17},
-        {'b', 36},  {'B', -3}, //{'B', 36},
-        {'n', 32},  {'N', 32},
-        {'m', 37},  {'M', 37},
+        {'a', 6},
+        {'s', 2},
+        {'d', 11},
+        {'f', 5},
+        {'g', 18},
+        {'h', 27},
+        {'j', 23},
+        {'k', 19},
+        {'l', 39},
+
+        {'z', 15},
+        {'x', 16},
+        {'c', 14},
+        {'v', 17},
+        {'b', 36},
+        {'n', 32},
+        {'m', 37},
+
+        {'B', -3},
+        {'S', -1},
+        {'C', -2},
     };
 
     // 초성, 중성, 종성 테이블.
@@ -77,7 +89,7 @@ public class AutomateKR
     string m_completeWord;	// 완성글자
 
 
-
+    /*
     // 초성 합성 테이블
     int[,] MIXED_CHO_CONSON = new int[14, 3]
     {
@@ -100,83 +112,40 @@ public class AutomateKR
 	    {14,12,13}, // ㅊ,ㅈ,ㅉ
 	    {13,12,12}  // ㅉ,ㅈ,ㅈ
     };
+    */
 
     // 초성,중성 모음 합성 테이블
-    int[,] MIXED_VOWEL = new int[22, 3] {
-        {19,19,21},	// ㅏ,ㅏ,ㅑ
-	    {21,19,19},	// ㅑ,ㅏ,ㅏ
-
-	    {19,39,20},	// ㅏ,ㅣ,ㅐ
-	    {21,39,22},	// ㅑ,ㅣ,ㅒ
-
-	    {23,23,25},	// ㅓ,ㅓ,ㅕ
-	    {25,23,23},	// ㅕ,ㅓ,ㅓ
-
-	    {23,39,24},	// ㅓ,ㅣ,ㅔ
-	    {25,39,26},	// ㅕ,ㅣ,ㅖ
-
-	    {27,27,31},	// ㅗ,ㅗ,ㅛ
-	    {31,27,27},	// ㅛ,ㅗ,ㅗ
-
-	    {27,19,28},	// ㅗ,ㅏ,ㅘ
+    int[,] MIXED_VOWEL = new int[7, 3] {
+        {27,19,28},	// ㅗ,ㅏ,ㅘ
         {27,20,29},	// ㅗ,ㅐ,ㅙ
-	    {28,39,29},	// ㅘ,ㅣ,ㅙ
-
 	    {27,39,30},	// ㅗ,ㅣ,ㅚ
 
-	    {32,32,36},	// ㅜ,ㅜ,ㅠ
-	    {36,32,32},	// ㅠ,ㅜ,ㅜ
-
 	    {32,23,33},	// ㅜ,ㅓ,ㅝ
-	    {33,39,34},	// ㅝ,ㅣ,ㅞ
+        {32,24,34}, // ㅜ,ㅔ,ㅞ
 
 	    {32,39,35},	// ㅜ,ㅣ,ㅟ
 
-	    {39,39,37},	// ㅣ,ㅣ,ㅡ
 	    {37,39,38},	// ㅡ,ㅣ,ㅢ
-	    {38,39,39}	// ㅢ,ㅣ,ㅣ
     };
 
     // 종성 합성 테이블
     int[,] MIXED_JONG_CONSON = new int[11, 3] {
-
-	    //{41,41,64}, // ㄱ,ㄱ,ㅋ
-	    //{64,41,42}, // ㅋ,ㄱ,ㄲ
-	    //{42,41,41}, // ㄲ,ㄱ,ㄱ
- 
-	    {41,59,43}, // ㄱ,ㅅ,ㄳ
- 
+        {41,59,43}, // ㄱ,ㅅ,ㄳ 
 	    {44,62,45}, // ㄴ,ㅈ,ㄵ
-	    {44,67,46}, // ㄴ,ㅎ,ㄶ
- 
-	    //{47,47,65}, // ㄷ,ㄷ,ㅌ
-	    //{65,47,47}, // ㅌ,ㄷ,ㄷ
- 
+	    {44,67,46}, // ㄴ,ㅎ,ㄶ 
 	    {48,41,49}, // ㄹ,ㄱ,ㄺ
-	    {48,56,50}, // ㄹ,ㅁ,ㄻ
- 
+	    {48,56,50}, // ㄹ,ㅁ,ㄻ 
 	    {48,57,51}, // ㄹ,ㅂ,ㄼ
-	    {51,57,54}, // ㄼ,ㅂ,ㄿ
- 
+	    {51,57,54}, // ㄼ,ㅂ,ㄿ 
 	    {48,59,52}, // ㄹ,ㅅ,ㄽ
 	    {48,65,53}, // ㄹ,ㄷ,ㄾ	
-	    {48,67,55}, // ㄹ,ㅎ,ㅀ
- 
-	    //{57,57,66}, // ㅂ,ㅂ,ㅍ
-	    //{66,57,57}, // ㅍ,ㅂ,ㅂ
- 
-	    {57,59,58} // ㅂ,ㅅ,ㅄ
- 
-	    //{59,59,60}, // ㅅ,ㅅ,ㅆ
-	    //{60,59,59}, // ㅆ,ㅅ,ㅅ
- 
-	    //{62,62,63}, // ㅈ,ㅈ,ㅊ
-	    //{63,62,62}  // ㅊ,ㅈ,ㅈ
+	    {48,67,55}, // ㄹ,ㅎ,ㅀ 
+	    {57,59,58}, // ㅂ,ㅅ,ㅄ
     };
 
-    // 종성 분해 테이블
-    int[,] DIVIDE_JONG_CONSON = new int[13, 3] {
-        {41,41,42}, // ㄱ,ㄱ,ㄲ
+    /*
+    // 종성 분해 테이블 -> MIXED_JONG_CONSON과 동일
+    int[,] DIVIDE_JONG_CONSON = new int[11, 3] {
 	    {41,59,43}, // ㄱ,ㅅ,ㄳ
 	    {44,62,45}, // ㄴ,ㅈ,ㄵ
 	    {44,67,46}, // ㄴ,ㅎ,ㄶ
@@ -188,9 +157,9 @@ public class AutomateKR
 	    {48,65,53}, // ㄹ,ㅌ,ㄾ	
 	    {48,67,55}, // ㄹ,ㅎ,ㅀ
 	    {57,59,58}, // ㅂ,ㅅ,ㅄ
-	    {59,59,60}  // ㅅ,ㅅ,ㅆ
         
     };
+    */
 
     int currentCode;// 포인터 대체
 
@@ -514,23 +483,24 @@ public class AutomateKR
         {
             do
             {
-                if (DIVIDE_JONG_CONSON[i, 2] == m_nPhonemez[2])
+                if (MIXED_JONG_CONSON[i, 2] == m_nPhonemez[2])
                 {
-                    m_nPhonemez[3] = DIVIDE_JONG_CONSON[i, 0];
-                    m_nPhonemez[4] = DIVIDE_JONG_CONSON[i, 1];
+                    m_nPhonemez[3] = MIXED_JONG_CONSON[i, 0];
+                    m_nPhonemez[4] = MIXED_JONG_CONSON[i, 1];
 
                     m_completeWord = CombineHangle(3);
                     m_nPhonemez[0] = ToInitial(m_nPhonemez[4]);
                     return;
                 }
             }
-            while (++i < 13);
+            while (++i < 11);
         }
 
         m_completeWord = CombineHangle(1);
         m_nPhonemez[0] = ToInitial(m_nPhonemez[2]);
     }
 
+    /*
     // 초성합성
     bool MixInitial(int nKeyCode)
     {
@@ -550,6 +520,7 @@ public class AutomateKR
 
         return false;
     }
+    */
 
     // 종성합성
     bool MixFinal(int nKeyCode)
@@ -587,7 +558,7 @@ public class AutomateKR
                 return true;
             }
         }
-        while (++i < 22);
+        while (++i < 7);
 
         return false;
     }
@@ -681,13 +652,13 @@ public class AutomateKR
 
         iLastWord += 40;
 
-        for (int i = 0; i < 13; i++)
+        for (int i = 0; i < 11; i++)
         {
 
-            if (iLastWord == DIVIDE_JONG_CONSON[i, 2])
+            if (iLastWord == MIXED_JONG_CONSON[i, 2])
             {
                 ingWord = CombineHangle(3);
-                m_nPhonemez[2] = DIVIDE_JONG_CONSON[i, 0]; // 종성저장
+                m_nPhonemez[2] = MIXED_JONG_CONSON[i, 0]; // 종성저장
                 return HAN_STATUS.HS_END_EXCEPTION;
             }
         }
