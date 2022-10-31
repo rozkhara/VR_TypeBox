@@ -33,6 +33,8 @@ public class InputManager : MonoBehaviour
 
     private void Start()
     {
+        List<Dictionary<string, object>> wordData = CSVReader.Read("wordLen");
+
         mTextField.text = "키를 누르세요.";
     }
 
