@@ -115,7 +115,7 @@ public class AutomateKR
     */
 
     // 초성,중성 모음 합성 테이블
-    int[,] MIXED_VOWEL = new int[7, 3] {
+    public static int[,] MIXED_VOWEL = new int[7, 3] {
         {27,19,28},	// ㅗ,ㅏ,ㅘ
         {27,20,29},	// ㅗ,ㅐ,ㅙ
 	    {27,39,30},	// ㅗ,ㅣ,ㅚ
@@ -129,7 +129,7 @@ public class AutomateKR
     };
 
     // 종성 합성 테이블
-    int[,] MIXED_JONG_CONSON = new int[11, 3] {
+    public static int[,] MIXED_JONG_CONSON = new int[11, 3] {
         {41,59,43}, // ㄱ,ㅅ,ㄳ 
 	    {44,62,45}, // ㄴ,ㅈ,ㄵ
 	    {44,67,46}, // ㄴ,ㅎ,ㄶ 
@@ -423,7 +423,7 @@ public class AutomateKR
 
 
     // 초성으로 변환
-    int ToInitial(int nKeyCode)
+    public int ToInitial(int nKeyCode)
     {
         switch (nKeyCode)
         {
