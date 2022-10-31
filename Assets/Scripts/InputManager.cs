@@ -91,8 +91,8 @@ public class InputManager : MonoBehaviour
                 if (mv[j, 2] == jung)
                 {
                     ires[count] = mv[j, 0];
-                    ires[count] = mv[j, 1];
                     res[count++] = st[mv[j, 0]];
+                    ires[count] = mv[j, 1];
                     res[count++] = st[mv[j, 1]];
                     break;
                 }
@@ -108,8 +108,8 @@ public class InputManager : MonoBehaviour
                 if (mjc[j, 2] == jong)
                 {
                     ires[count] = mjc[j, 0];
-                    ires[count] = mjc[j, 1];
                     res[count++] = st[mjc[j, 0]];
+                    ires[count] = mjc[j, 1];
                     res[count++] = st[mjc[j, 1]];
                     break;
                 }
