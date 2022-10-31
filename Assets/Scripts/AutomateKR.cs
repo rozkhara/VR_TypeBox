@@ -204,19 +204,16 @@ public class AutomateKR
 
                 ingWord = null;
             }
-            else if (nKeyCode == KEY_CODE_ENTER) // 내려쓰기
+            else if (nKeyCode == KEY_CODE_ENTER)
             {
-                // 내려 쓰기 대신 제출 기능 구현
-                Clear();
-
-                /*
-                 if (ingWord != null)
+                // 작성한 text를 제출(completeText) & clear
+                if (ingWord != null)
                     completeText += ingWord;
 
-                completeText += "\r\n";
+                // 정답 체크 함수
+                // Debug.Log(completeText);
 
-                ingWord = null;
-                 */
+                Clear();
             }
             else if (nKeyCode == KEY_CODE_BACKSPACE) // 지우기
             {

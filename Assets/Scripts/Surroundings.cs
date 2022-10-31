@@ -56,6 +56,7 @@ public class Surroundings : MonoBehaviour
             }
         }
         DirectionReset();
+        SetNewPosRot(); // VR 헤드셋 없어서 추가함
     }
     private void Update()
     {

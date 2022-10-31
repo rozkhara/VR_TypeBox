@@ -51,40 +51,6 @@ public class InputManager : MonoBehaviour
 
         TextField = mAutomateKR.completeText + mAutomateKR.ingWord;
     }
-    
-
-    // 특수키 KeyDown() 추가해야함... 
-    // Backspace, Space, Enter ?
-
-    /*public void KeyDown(VirtualKey _key)
-    {
-        switch(_key.KeyType)
-        {
-            case VirtualKey.kType.kBackspace:
-                {
-                    mAutomateKR.SetKeyCode(AutomateKR.KEY_CODE_BACKSPACE);
-
-                }
-                break;
-            case VirtualKey.kType.kSpace:
-                {
-                    mAutomateKR.SetKeyCode(AutomateKR.KEY_CODE_SPACE);
-                }
-                break;
-        }
-
-        TextField = mAutomateKR.completeText + mAutomateKR.ingWord;
-    }*/
-
-/*
-public void DeleteChar()
-{
-    if (mTextField.text.Length > 0)
-    {
-        mTextField.text = mTextField.text.Substring(0, mTextField.text.Length - 1);
-    }
-}
-*/
 
 public AutomateKR.HAN_STATUS GetStatus()
 {
