@@ -52,7 +52,7 @@ public class InputManager : MonoBehaviour
         //KeySequence(wordData[Random.Range(0, wordData.Count)][Random.Range(1, 4).ToString()].ToString());
         UpdateTargetWord();
 
-        TextField = "Ű�� ��������.";
+        TextField = "Enter";
     }
 
     public void Clear()
@@ -78,25 +78,44 @@ public class InputManager : MonoBehaviour
         TextField = mAutomateKR.completeText + mAutomateKR.ingWord;
         UpdateNextKey();
 
-        string curText = null;
+        char[] targetWordArray = KeySequence(targetWord);
         int idx = 0;
+        int wordIdx = 0;
+        string completeText = null;
+        bool check = false;
 
-        if (mAutomateKR.completeText == null)
+        if (check) return;
+
+        if (_key == targetWordArray[idx])
         {
-            curText = mAutomateKR.ingWord;
-            idx = curText.Length - 1;
+            idx++;
         }
         else
         {
-            curText = mAutomateKR.completeText;
-            idx = curText.Length;
+            check = true;
+
+            string curText = null;
+
+            if (mAutomateKR.completeText == null)
+            {
+                curText = mAutomateKR.ingWord;
+            }
+            else
+            {
+                curText = mAutomateKR.completeText;
+            }
+
+            if (mAutomateKR.completeText != completeText)
+            {
+                completeText = mAutomateKR.completeText;
+                wordIdx++;
+
+                if (_key != targetWordArray[idx])
+                {
+                    targetTextField.text = targetWord.Substring(0, wordIdx) + "<color=red>" + targetWord[wordIdx] + "</color>" + targetWord.Substring(wordIdx + 1);
+                }
+            }
         }
-
-        if (idx > targetWord.Length) return;
-
-        string curChar = targetWord[idx].ToString();
-
-        if (!StringCmp(mAutomateKR.ingWord, curChar)) targetTextField.text = targetWord.Substring(0, idx) + "<color=red>" + curChar + "</color>" + targetWord.Substring(idx + 1);
     }
 
     
@@ -107,9 +126,11 @@ public class InputManager : MonoBehaviour
 
         int cnt = 0;
 
-        Debug.Log("Hi! : " + curChar);
+        foreach (var ingChar in ingCharArray)
+        {
+            if (ingChar - 'a' < 0 || ingChar - 'a' >= 26) continue;
 
-        foreach (var ingChar in ingCharArray) {
+            Debug.Log("HI! : " + ingChar);
             if (ingChar == curCharArray[cnt]) cnt++;
             else return false;
         }
