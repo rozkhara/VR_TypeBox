@@ -11,23 +11,26 @@ public class InputManager : MonoBehaviour
     int[,] mv = AutomateKR.MIXED_VOWEL;
     int[,] mjc = AutomateKR.MIXED_JONG_CONSON;
 
-    public TextMeshProUGUI mTextField = null;
+    public TextMeshProUGUI targetTextField = null;
+    public TextMeshProUGUI inputTextField = null;
     List<Dictionary<string, object>> wordData;
+
+    string targetWord = null;
 
     public string TextField
     {
         set
         {
-            if (mTextField != null)
+            if (inputTextField != null)
             {
-                mTextField.text = value;
+                inputTextField.text = value;
             }
         }
         get
         {
-            if (mTextField != null)
+            if (inputTextField != null)
             {
-                return mTextField.text;
+                return inputTextField.text;
             }
             return "";
         }
@@ -43,9 +46,10 @@ public class InputManager : MonoBehaviour
         wordData = CSVReader.Read("wordLen");
 
         // random 단어를 key sequeance로 분해
-        keySequence(wordData[Random.Range(0, wordData.Count)][Random.Range(1, 4).ToString()].ToString());
+        //KeySequence(wordData[Random.Range(0, wordData.Count)][Random.Range(1, 4).ToString()].ToString());
+        UpdateTargetWord();
 
-        mTextField.text = "키를 누르세요.";
+        inputTextField.text = "키를 누르세요.";
     }
 
     public void Clear()
@@ -59,15 +63,42 @@ public class InputManager : MonoBehaviour
     
     public void KeyDownHangul(char _key)
     {
-        if(_key == 'C') keySequence(wordData[Random.Range(0, wordData.Count)][Random.Range(1, 4 ).ToString()].ToString());
+        if (_key == 'C')
+        {
+            CheckInput(targetWord);
+            // Clear();
+        }
 
         mAutomateKR.SetKeyCode(_key);
 
         TextField = mAutomateKR.completeText + mAutomateKR.ingWord;
     }
 
-    char[] keySequence(string originWord) // originWord를 입력하는데 필요한 key 문자 배열, keyTest 이름 배열을 반환
+    void UpdateTargetWord()
     {
+        // 중복 없이 할거면 중복 확인 함수?도 만들어야 할 듯 
+        targetWord = wordData[Random.Range(0, wordData.Count)][Random.Range(1, 4).ToString()].ToString();
+        targetTextField.text = targetWord;
+    }
+
+    void CheckInput(string originWord)
+    {
+        Debug.LogFormat("{0} == {1} ? => {2}", TextField, originWord, TextField == originWord);
+        if(TextField == originWord)
+        {
+            UpdateTargetWord();
+            //KeySequence(wordData[Random.Range(0, wordData.Count)][Random.Range(1, 4).ToString()].ToString());
+        }
+        else
+        {
+            Clear();
+        }
+    }
+
+    char[] KeySequence(string originWord) // originWord를 입력하는데 필요한 key 문자 배열, keyTest 이름 배열을 반환
+    {
+        targetTextField.text = originWord;
+
         int[] ires = new int[15];
         char[] res = new char[15];
         char[] c = originWord.ToCharArray();
@@ -127,7 +158,7 @@ public class InputManager : MonoBehaviour
         {
             keyTextName[i] = AutomateKR.HANGULE_KEY_TABLE.FirstOrDefault(x => x.Value == ires[i]).Key;
         }
-        Debug.LogFormat("{0}, {1}, {2}", originWord, res.ArrayToString(), keyTextName.ArrayToString());
+        // Debug.LogFormat("{0}, {1}, {2}", originWord, res.ArrayToString(), keyTextName.ArrayToString());
         return res;        
     }
 }
