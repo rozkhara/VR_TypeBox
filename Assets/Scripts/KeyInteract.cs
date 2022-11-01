@@ -20,7 +20,7 @@ public class KeyInteract : MonoBehaviour
     }
     private void Update()
     {
-        var dist = Vector2.Distance(new Vector3(this.gameObject.transform.position.x, this.gameObject.transform.position.z), new Vector3(go.transform.position.x, go.transform.position.z));
+        //var dist = Vector2.Distance(new Vector3(this.gameObject.transform.position.x, this.gameObject.transform.position.z), new Vector3(go.transform.position.x, go.transform.position.z));
         //Debug.Log("Distance : " + dist.ToString());
     }
 

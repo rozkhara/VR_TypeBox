@@ -72,6 +72,44 @@ public class InputManager : MonoBehaviour
         mAutomateKR.SetKeyCode(_key);
 
         TextField = mAutomateKR.completeText + mAutomateKR.ingWord;
+
+        string curText = null;
+        int idx = 0;
+
+        if (mAutomateKR.completeText == null)
+        {
+            curText = mAutomateKR.ingWord;
+            idx = curText.Length - 1;
+        }
+        else
+        {
+            curText = mAutomateKR.completeText;
+            idx = curText.Length;
+        }
+
+        if (idx > targetWord.Length) return;
+
+        string curChar = targetWord[idx].ToString();
+
+        if (!StringCmp(mAutomateKR.ingWord, curChar)) targetTextField.text = targetWord.Substring(0, idx) + "<color=red>" + curChar + "</color>" + targetWord.Substring(idx + 1);
+    }
+
+    
+    bool StringCmp(string _ingWord, string curChar)
+    {
+        char[] curCharArray = KeySequence(curChar);
+        char[] ingCharArray = KeySequence(_ingWord);
+
+        int cnt = 0;
+
+        Debug.Log("Hi! : " + curChar);
+
+        foreach (var ingChar in ingCharArray) {
+            if (ingChar == curCharArray[cnt]) cnt++;
+            else return false;
+        }
+
+        return true;
     }
 
     void UpdateTargetWord()
@@ -97,8 +135,6 @@ public class InputManager : MonoBehaviour
 
     char[] KeySequence(string originWord) // originWord를 입력하는데 필요한 key 문자 배열, keyTest 이름 배열을 반환
     {
-        targetTextField.text = originWord;
-
         int[] ires = new int[15];
         char[] res = new char[15];
         char[] c = originWord.ToCharArray();
@@ -158,7 +194,7 @@ public class InputManager : MonoBehaviour
         {
             keyTextName[i] = AutomateKR.HANGULE_KEY_TABLE.FirstOrDefault(x => x.Value == ires[i]).Key;
         }
-        // Debug.LogFormat("{0}, {1}, {2}", originWord, res.ArrayToString(), keyTextName.ArrayToString());
+        Debug.LogFormat("{0}, {1}, {2}", originWord, res.ArrayToString(), keyTextName.ArrayToString());
         return res;        
     }
 }
