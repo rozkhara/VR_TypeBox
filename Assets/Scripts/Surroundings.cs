@@ -55,8 +55,7 @@ public class Surroundings : MonoBehaviour
                 rightKeyObjects[i].Add(go);
             }
         }
-        DirectionReset();
-        SetNewPosRot(); // VR 헤드셋 없어서 추가함
+        SetNewPosRot();
     }
     private void Update()
     {
@@ -64,7 +63,6 @@ public class Surroundings : MonoBehaviour
         if ((SteamVR_Input.GetState("LowerButtonLeft", SteamVR_Input_Sources.LeftHand) && SteamVR_Input.GetStateDown("LowerButtonRight", SteamVR_Input_Sources.RightHand)) ||
             (SteamVR_Input.GetStateDown("LowerButtonLeft", SteamVR_Input_Sources.LeftHand) && SteamVR_Input.GetState("LowerButtonRight", SteamVR_Input_Sources.RightHand)))
         {
-            DirectionReset();
             //Debug.Log("Both Buttons Pressed");
             SetNewPosRot();
         }
@@ -73,6 +71,7 @@ public class Surroundings : MonoBehaviour
 
     private void SetNewPosRot()
     {
+        DirectionReset();
         Vector3 position = this.gameObject.transform.position;
         Vector3 translateVector = new(0f, 0f, distance);
         Quaternion newDir = lookDir;

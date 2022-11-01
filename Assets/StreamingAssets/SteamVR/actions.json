@@ -66,6 +66,38 @@
       "type": "boolean"
     },
     {
+      "name": "/actions/default/in/NorthLeftHand",
+      "type": "boolean"
+    },
+    {
+      "name": "/actions/default/in/NorthRightHand",
+      "type": "boolean"
+    },
+    {
+      "name": "/actions/default/in/SouthLeftHand",
+      "type": "boolean"
+    },
+    {
+      "name": "/actions/default/in/SouthRightHand",
+      "type": "boolean"
+    },
+    {
+      "name": "/actions/default/in/EastLeftHand",
+      "type": "boolean"
+    },
+    {
+      "name": "/actions/default/in/EastRightHand",
+      "type": "boolean"
+    },
+    {
+      "name": "/actions/default/in/WestLeftHand",
+      "type": "boolean"
+    },
+    {
+      "name": "/actions/default/in/WestRightHand",
+      "type": "boolean"
+    },
+    {
       "name": "/actions/default/out/Haptic",
       "type": "vibration"
     },
@@ -189,7 +221,15 @@
       "/actions/default/in/LowerButtonLeft": "Lower Button (Left)",
       "/actions/default/in/LowerButtonRight": "Lower Button (Right)",
       "/actions/default/in/UpperButtonLeft": "Upper Button (Left)",
-      "/actions/default/in/UpperButtonRight": "Upper Button (Right)"
+      "/actions/default/in/UpperButtonRight": "Upper Button (Right)",
+      "/actions/default/in/NorthLeftHand": "North Left Hand",
+      "/actions/default/in/NorthRightHand": "North Right Hand",
+      "/actions/default/in/SouthLeftHand": "South Left Hand",
+      "/actions/default/in/SouthRightHand": "South Right Hand",
+      "/actions/default/in/EastLeftHand": "East Left Hand",
+      "/actions/default/in/EastRightHand": "East Right Hand",
+      "/actions/default/in/WestLeftHand": "West Left Hand",
+      "/actions/default/in/WestRightHand": "West Right Hand"
     }
   ]
 }

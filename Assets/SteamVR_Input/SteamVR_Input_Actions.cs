@@ -47,6 +47,22 @@ namespace Valve.VR
         
         private static SteamVR_Action_Boolean p_default_UpperButtonRight;
         
+        private static SteamVR_Action_Boolean p_default_NorthLeftHand;
+        
+        private static SteamVR_Action_Boolean p_default_NorthRightHand;
+        
+        private static SteamVR_Action_Boolean p_default_SouthLeftHand;
+        
+        private static SteamVR_Action_Boolean p_default_SouthRightHand;
+        
+        private static SteamVR_Action_Boolean p_default_EastLeftHand;
+        
+        private static SteamVR_Action_Boolean p_default_EastRightHand;
+        
+        private static SteamVR_Action_Boolean p_default_WestLeftHand;
+        
+        private static SteamVR_Action_Boolean p_default_WestRightHand;
+        
         private static SteamVR_Action_Vibration p_default_Haptic;
         
         private static SteamVR_Action_Vector2 p_platformer_Move;
@@ -183,6 +199,70 @@ namespace Valve.VR
             }
         }
         
+        public static SteamVR_Action_Boolean default_NorthLeftHand
+        {
+            get
+            {
+                return SteamVR_Actions.p_default_NorthLeftHand.GetCopy<SteamVR_Action_Boolean>();
+            }
+        }
+        
+        public static SteamVR_Action_Boolean default_NorthRightHand
+        {
+            get
+            {
+                return SteamVR_Actions.p_default_NorthRightHand.GetCopy<SteamVR_Action_Boolean>();
+            }
+        }
+        
+        public static SteamVR_Action_Boolean default_SouthLeftHand
+        {
+            get
+            {
+                return SteamVR_Actions.p_default_SouthLeftHand.GetCopy<SteamVR_Action_Boolean>();
+            }
+        }
+        
+        public static SteamVR_Action_Boolean default_SouthRightHand
+        {
+            get
+            {
+                return SteamVR_Actions.p_default_SouthRightHand.GetCopy<SteamVR_Action_Boolean>();
+            }
+        }
+        
+        public static SteamVR_Action_Boolean default_EastLeftHand
+        {
+            get
+            {
+                return SteamVR_Actions.p_default_EastLeftHand.GetCopy<SteamVR_Action_Boolean>();
+            }
+        }
+        
+        public static SteamVR_Action_Boolean default_EastRightHand
+        {
+            get
+            {
+                return SteamVR_Actions.p_default_EastRightHand.GetCopy<SteamVR_Action_Boolean>();
+            }
+        }
+        
+        public static SteamVR_Action_Boolean default_WestLeftHand
+        {
+            get
+            {
+                return SteamVR_Actions.p_default_WestLeftHand.GetCopy<SteamVR_Action_Boolean>();
+            }
+        }
+        
+        public static SteamVR_Action_Boolean default_WestRightHand
+        {
+            get
+            {
+                return SteamVR_Actions.p_default_WestRightHand.GetCopy<SteamVR_Action_Boolean>();
+            }
+        }
+        
         public static SteamVR_Action_Vibration default_Haptic
         {
             get
@@ -265,6 +345,14 @@ namespace Valve.VR
                     SteamVR_Actions.default_LowerButtonRight,
                     SteamVR_Actions.default_UpperButtonLeft,
                     SteamVR_Actions.default_UpperButtonRight,
+                    SteamVR_Actions.default_NorthLeftHand,
+                    SteamVR_Actions.default_NorthRightHand,
+                    SteamVR_Actions.default_SouthLeftHand,
+                    SteamVR_Actions.default_SouthRightHand,
+                    SteamVR_Actions.default_EastLeftHand,
+                    SteamVR_Actions.default_EastRightHand,
+                    SteamVR_Actions.default_WestLeftHand,
+                    SteamVR_Actions.default_WestRightHand,
                     SteamVR_Actions.default_Haptic,
                     SteamVR_Actions.platformer_Move,
                     SteamVR_Actions.platformer_Jump,
@@ -289,6 +377,14 @@ namespace Valve.VR
                     SteamVR_Actions.default_LowerButtonRight,
                     SteamVR_Actions.default_UpperButtonLeft,
                     SteamVR_Actions.default_UpperButtonRight,
+                    SteamVR_Actions.default_NorthLeftHand,
+                    SteamVR_Actions.default_NorthRightHand,
+                    SteamVR_Actions.default_SouthLeftHand,
+                    SteamVR_Actions.default_SouthRightHand,
+                    SteamVR_Actions.default_EastLeftHand,
+                    SteamVR_Actions.default_EastRightHand,
+                    SteamVR_Actions.default_WestLeftHand,
+                    SteamVR_Actions.default_WestRightHand,
                     SteamVR_Actions.platformer_Move,
                     SteamVR_Actions.platformer_Jump,
                     SteamVR_Actions.buggy_Steering,
@@ -315,6 +411,14 @@ namespace Valve.VR
                     SteamVR_Actions.default_LowerButtonRight,
                     SteamVR_Actions.default_UpperButtonLeft,
                     SteamVR_Actions.default_UpperButtonRight,
+                    SteamVR_Actions.default_NorthLeftHand,
+                    SteamVR_Actions.default_NorthRightHand,
+                    SteamVR_Actions.default_SouthLeftHand,
+                    SteamVR_Actions.default_SouthRightHand,
+                    SteamVR_Actions.default_EastLeftHand,
+                    SteamVR_Actions.default_EastRightHand,
+                    SteamVR_Actions.default_WestLeftHand,
+                    SteamVR_Actions.default_WestRightHand,
                     SteamVR_Actions.platformer_Jump,
                     SteamVR_Actions.buggy_Brake,
                     SteamVR_Actions.buggy_Reset};
@@ -341,6 +445,14 @@ namespace Valve.VR
                     SteamVR_Actions.default_LowerButtonRight,
                     SteamVR_Actions.default_UpperButtonLeft,
                     SteamVR_Actions.default_UpperButtonRight,
+                    SteamVR_Actions.default_NorthLeftHand,
+                    SteamVR_Actions.default_NorthRightHand,
+                    SteamVR_Actions.default_SouthLeftHand,
+                    SteamVR_Actions.default_SouthRightHand,
+                    SteamVR_Actions.default_EastLeftHand,
+                    SteamVR_Actions.default_EastRightHand,
+                    SteamVR_Actions.default_WestLeftHand,
+                    SteamVR_Actions.default_WestRightHand,
                     SteamVR_Actions.platformer_Move,
                     SteamVR_Actions.platformer_Jump,
                     SteamVR_Actions.buggy_Steering,
@@ -366,6 +478,14 @@ namespace Valve.VR
             SteamVR_Actions.p_default_LowerButtonRight = ((SteamVR_Action_Boolean)(SteamVR_Action.Create<SteamVR_Action_Boolean>("/actions/default/in/LowerButtonRight")));
             SteamVR_Actions.p_default_UpperButtonLeft = ((SteamVR_Action_Boolean)(SteamVR_Action.Create<SteamVR_Action_Boolean>("/actions/default/in/UpperButtonLeft")));
             SteamVR_Actions.p_default_UpperButtonRight = ((SteamVR_Action_Boolean)(SteamVR_Action.Create<SteamVR_Action_Boolean>("/actions/default/in/UpperButtonRight")));
+            SteamVR_Actions.p_default_NorthLeftHand = ((SteamVR_Action_Boolean)(SteamVR_Action.Create<SteamVR_Action_Boolean>("/actions/default/in/NorthLeftHand")));
+            SteamVR_Actions.p_default_NorthRightHand = ((SteamVR_Action_Boolean)(SteamVR_Action.Create<SteamVR_Action_Boolean>("/actions/default/in/NorthRightHand")));
+            SteamVR_Actions.p_default_SouthLeftHand = ((SteamVR_Action_Boolean)(SteamVR_Action.Create<SteamVR_Action_Boolean>("/actions/default/in/SouthLeftHand")));
+            SteamVR_Actions.p_default_SouthRightHand = ((SteamVR_Action_Boolean)(SteamVR_Action.Create<SteamVR_Action_Boolean>("/actions/default/in/SouthRightHand")));
+            SteamVR_Actions.p_default_EastLeftHand = ((SteamVR_Action_Boolean)(SteamVR_Action.Create<SteamVR_Action_Boolean>("/actions/default/in/EastLeftHand")));
+            SteamVR_Actions.p_default_EastRightHand = ((SteamVR_Action_Boolean)(SteamVR_Action.Create<SteamVR_Action_Boolean>("/actions/default/in/EastRightHand")));
+            SteamVR_Actions.p_default_WestLeftHand = ((SteamVR_Action_Boolean)(SteamVR_Action.Create<SteamVR_Action_Boolean>("/actions/default/in/WestLeftHand")));
+            SteamVR_Actions.p_default_WestRightHand = ((SteamVR_Action_Boolean)(SteamVR_Action.Create<SteamVR_Action_Boolean>("/actions/default/in/WestRightHand")));
             SteamVR_Actions.p_default_Haptic = ((SteamVR_Action_Vibration)(SteamVR_Action.Create<SteamVR_Action_Vibration>("/actions/default/out/Haptic")));
             SteamVR_Actions.p_platformer_Move = ((SteamVR_Action_Vector2)(SteamVR_Action.Create<SteamVR_Action_Vector2>("/actions/platformer/in/Move")));
             SteamVR_Actions.p_platformer_Jump = ((SteamVR_Action_Boolean)(SteamVR_Action.Create<SteamVR_Action_Boolean>("/actions/platformer/in/Jump")));

@@ -137,6 +137,70 @@ namespace Valve.VR
             }
         }
         
+        public virtual SteamVR_Action_Boolean NorthLeftHand
+        {
+            get
+            {
+                return SteamVR_Actions.default_NorthLeftHand;
+            }
+        }
+        
+        public virtual SteamVR_Action_Boolean NorthRightHand
+        {
+            get
+            {
+                return SteamVR_Actions.default_NorthRightHand;
+            }
+        }
+        
+        public virtual SteamVR_Action_Boolean SouthLeftHand
+        {
+            get
+            {
+                return SteamVR_Actions.default_SouthLeftHand;
+            }
+        }
+        
+        public virtual SteamVR_Action_Boolean SouthRightHand
+        {
+            get
+            {
+                return SteamVR_Actions.default_SouthRightHand;
+            }
+        }
+        
+        public virtual SteamVR_Action_Boolean EastLeftHand
+        {
+            get
+            {
+                return SteamVR_Actions.default_EastLeftHand;
+            }
+        }
+        
+        public virtual SteamVR_Action_Boolean EastRightHand
+        {
+            get
+            {
+                return SteamVR_Actions.default_EastRightHand;
+            }
+        }
+        
+        public virtual SteamVR_Action_Boolean WestLeftHand
+        {
+            get
+            {
+                return SteamVR_Actions.default_WestLeftHand;
+            }
+        }
+        
+        public virtual SteamVR_Action_Boolean WestRightHand
+        {
+            get
+            {
+                return SteamVR_Actions.default_WestRightHand;
+            }
+        }
+        
         public virtual SteamVR_Action_Vibration Haptic
         {
             get
