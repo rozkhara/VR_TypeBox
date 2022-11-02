@@ -248,9 +248,9 @@ public class InputManager : MonoBehaviour
                 {
                     if (mjc[j, 2] == jong)
                     {
-                        ires[count] = mjc[j, 0];
+                        ires[count] = mAutomateKR.ToInitial(mjc[j, 0]);
                         res[count++] = st[mjc[j, 0]];
-                        ires[count] = mjc[j, 1];
+                        ires[count] = mAutomateKR.ToInitial(mjc[j, 1]);
                         res[count++] = st[mjc[j, 1]];
                         break;
                     }
