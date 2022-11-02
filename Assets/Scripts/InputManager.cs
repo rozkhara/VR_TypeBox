@@ -50,23 +50,31 @@ public class InputManager : MonoBehaviour
 
         // random �ܾ key sequeance�� ����
         //KeySequence(wordData[Random.Range(0, wordData.Count)][Random.Range(1, 4).ToString()].ToString());
-        UpdateTargetWord(); 
-        if (keyCnt < targetKeySeq.Length)
-            Debug.LogFormat("{0}키({1}키)를 입력하세요. )", st[AutomateKR.HANGULE_KEY_TABLE[targetKeySeq[keyCnt]]], targetKeySeq[keyCnt]);
-        else
-        {
-            Debug.Log("완성");
-        }
+        UpdateTargetWord();
+        DebugNextKey();
 
         TextField = "Enter";
+    }
+
+    void DebugNextKey()
+    {
+        if (keyCnt < targetKeySeq.ArrayToString().Length)
+        {
+            // 정답 키 : targetKeySeq[keyCnt]
+            Debug.LogFormat("{0}키({1}키)를 포함해야 함 )", st[AutomateKR.HANGULE_KEY_TABLE[targetKeySeq[keyCnt]]], targetKeySeq[keyCnt]);
+        }
+        else
+        {
+            Debug.Log("아무 키나 포함해도 됨");
+        }
     }
 
     public void Clear()
     {
         mAutomateKR.Clear();
-
         TextField = mAutomateKR.completeText + mAutomateKR.ingWord;
         inputKeySeq = null;
+        UpdateNextKey();
     }
 
     // �ѱ�Ű
@@ -88,16 +96,6 @@ public class InputManager : MonoBehaviour
         mAutomateKR.SetKeyCode(_key);
         TextField = mAutomateKR.completeText + mAutomateKR.ingWord;
         UpdateNextKey();
-        Debug.LogFormat("{0} < {1} ?", keyCnt, targetKeySeq.Length);
-        if (keyCnt < targetKeySeq.Length)
-            Debug.LogFormat("{0}키({1}키)를 입력하세요. )", st[AutomateKR.HANGULE_KEY_TABLE[targetKeySeq[keyCnt]]], targetKeySeq[keyCnt]);
-        else
-        {
-            Debug.Log("완성");
-            // 지금 방식으로 처리하면 정답이 '배'인데 'ㅂㅐ'로 입력한 상태에도 완성으로 처리됨
-            // 근데 게임하는 사람이 눈으로 보고 잘못 친거 아니까 알아서 전부 backspace 할거고 그럼 그냥 다시 'ㅂ' 입력하라고 뜸
-            // 결론 : 이름이 targetKeySeq[keyCnt]인 keyTest 오브젝트를 포함시키면 정답 완성을 위해 눌러야 할 키가 없는 경우는 발생하지 않음.
-        }
 
         char[] targetWordArray = KeySequence(targetWord);
         int idx = 0;
@@ -173,30 +171,24 @@ public class InputManager : MonoBehaviour
     {
         inputKeySeq = KeySequence(TextField);
         //Debug.LogFormat("{0} {1}", inputKeySeq.ArrayToString(), targetKeySeq.ArrayToString());
-        for (int i = 0; i < inputKeySeq.Length; i++)
+        for (int i = 0; i < inputKeySeq.ArrayToString().Length; i++)
         {
             if (inputKeySeq[i] != targetKeySeq[i])
             {
                 keyCnt = i;
+                DebugNextKey();
                 return;
             }            
         }
-        keyCnt = inputKeySeq.Length;
+        keyCnt = inputKeySeq.ArrayToString().Length;
+        DebugNextKey();
+    }
 
     void DeleteInput()
     {
         mAutomateKR.SetKeyCode(AutomateKR.KEY_CODE_BACKSPACE);
         TextField = mAutomateKR.completeText + mAutomateKR.ingWord;
         UpdateNextKey();
-        if (keyCnt < targetKeySeq.Length)
-            Debug.LogFormat("{0}키({1}키)를 입력하세요. )", st[AutomateKR.HANGULE_KEY_TABLE[targetKeySeq[keyCnt]]], targetKeySeq[keyCnt]);
-        else
-        {
-            Debug.Log("완성");
-            // 지금 방식으로 처리하면 정답이 '배'인데 'ㅂㅐ'로 입력한 상태에도 완성으로 처리됨
-            // 근데 게임하는 사람이 눈으로 보고 잘못 친거 아니까 알아서 전부 backspace 할거고 그럼 그냥 다시 'ㅂ' 입력하라고 뜸
-            // 결론 : 이름이 targetKeySeq[keyCnt]인 keyTest 오브젝트를 포함시키면 정답 완성을 위해 눌러야 할 키가 없는 경우는 발생하지 않음.
-        }
     }
 
     void CheckInput(string originWord)
