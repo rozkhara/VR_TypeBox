@@ -1,8 +1,7 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
 using TMPro;
+using UnityEngine;
 
 public class InputManager : MonoBehaviour
 {
@@ -19,6 +18,10 @@ public class InputManager : MonoBehaviour
     char[] targetKeySeq = new char[15];
     char[] inputKeySeq = new char[15];
     int keyCnt = 0;
+    int idx = 0;
+    int wordIdx = 0;
+    string completeText = null;
+    bool check = true;
 
     public string TextField
     {
@@ -54,7 +57,7 @@ public class InputManager : MonoBehaviour
         UpdateTargetWord();
         DebugNextKey();
 
-        TextField = "Enter";
+        TextField = "Ű�� ��������.";
     }
 
     void DebugNextKey()
@@ -103,64 +106,95 @@ public class InputManager : MonoBehaviour
         TextField = mAutomateKR.completeText + mAutomateKR.ingWord;
         UpdateNextKey();
 
-        char[] targetWordArray = KeySequence(targetWord);
-        int idx = 0;
-        int wordIdx = 0;
-        string completeText = null;
-        bool check = false;
+        Debug.Log("IDX : " + idx);
+        Debug.Log("Word IDX : " + wordIdx);
 
-        if (check) return;
-
-        if (_key == targetWordArray[idx])
+        if (mAutomateKR.ingWord == null && (mAutomateKR.completeText == "" || mAutomateKR.completeText == null))
         {
-            idx++;
-        }
-        else
-        {
+            targetTextField.text = targetWord;
             check = true;
+            idx = 0;
+            wordIdx = 0;
+            return;
+        }    
 
-            string curText = null;
+        string targetCharArray = KeySequence(targetWord).ArrayToString().Trim();
+        string curTextCharArray = KeySequence(TextField).ArrayToString().Trim();
+        int tmp = 0;
+        bool bCheck = false;
 
-            if (mAutomateKR.completeText == null)
+        foreach (var curTextChar in curTextCharArray)
+        {
+            if (curTextChar != targetCharArray[tmp])
             {
-                curText = mAutomateKR.ingWord;
+                bCheck = true;
+                break;
+            }
+            else if (curTextChar == targetCharArray[tmp]) tmp++;
+        }
+
+        if (!bCheck) check = true;
+
+        if (check && _key == 'B')
+        {
+            if (mAutomateKR.ingWord == null)
+            {
+                string completeString = KeySequence(mAutomateKR.completeText[wordIdx].ToString()).ArrayToString().Trim();
+                idx -= completeString.Length;
             }
             else
             {
-                curText = mAutomateKR.completeText;
-            }
+                string ingString = KeySequence(mAutomateKR.ingWord).ArrayToString().Trim();
+                string curTargetString = KeySequence(mAutomateKR.completeText[wordIdx].ToString()).ArrayToString().Trim();
+                int curIdx = 0;
+                bool key = false;
 
-            if (mAutomateKR.completeText != completeText)
-            {
-                completeText = mAutomateKR.completeText;
-                wordIdx++;
-
-                if (_key != targetWordArray[idx])
+                foreach (var ingChar in ingString)
                 {
-                    targetTextField.text = targetWord.Substring(0, wordIdx) + "<color=red>" + targetWord[wordIdx] + "</color>" + targetWord.Substring(wordIdx + 1);
+                    if (ingChar == curTargetString[curIdx]) curIdx++;
+                    else
+                    {
+                        key = true;
+                        break;
+                    }
                 }
+
+                if (!key)
+                {
+                    targetTextField.text = targetWord;
+                    check = true;
+                }
+                idx--;
             }
+
+            if (mAutomateKR.completeText != completeText && wordIdx > 0) wordIdx--;
+
+            return;
         }
-    }
 
-
-    bool StringCmp(string _ingWord, string curChar)
-    {
-        char[] curCharArray = KeySequence(curChar);
-        char[] ingCharArray = KeySequence(_ingWord);
-
-        int cnt = 0;
-
-        foreach (var ingChar in ingCharArray)
+        if (check && _key != targetCharArray[idx])
         {
-            if (ingChar - 'a' < 0 || ingChar - 'a' >= 26) continue;
+            if (targetWord.Length == 1) targetTextField.text = "<color=red>" + targetWord + "</color>";
+            else targetTextField.text = targetWord.Substring(0, wordIdx) + "<color=red>" + targetWord[wordIdx] + "</color>" + targetWord.Substring(wordIdx + 1);
 
-            Debug.Log("HI! : " + ingChar);
-            if (ingChar == curCharArray[cnt]) cnt++;
-            else return false;
+            check = false;
         }
 
-        return true;
+        if (check && _key == targetCharArray[idx])
+        {
+            idx++;
+        }
+
+        if (check && mAutomateKR.completeText != completeText)
+        {
+            if (wordIdx < targetWord.Length - 1) wordIdx++;
+
+            completeText = mAutomateKR.completeText;
+        }
+
+        Debug.Log("CHECK : " + check);
+
+        Debug.Log(targetCharArray[idx]);
     }
 
     void UpdateTargetWord()
