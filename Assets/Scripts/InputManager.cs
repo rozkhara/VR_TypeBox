@@ -51,30 +51,49 @@ public class InputManager : MonoBehaviour
         // random �ܾ key sequeance�� ����
         //KeySequence(wordData[Random.Range(0, wordData.Count)][Random.Range(1, 4).ToString()].ToString());
         UpdateTargetWord();
+        DebugNextKey();
 
         TextField = "Enter";
+    }
+
+    void DebugNextKey()
+    {
+        if (keyCnt < targetKeySeq.ArrayToString().Length)
+        {
+            // 정답 키 : targetKeySeq[keyCnt]
+            Debug.LogFormat("{0}키({1}키)를 포함해야 함 )", st[AutomateKR.HANGULE_KEY_TABLE[targetKeySeq[keyCnt]]], targetKeySeq[keyCnt]);
+        }
+        else
+        {
+            Debug.Log("아무 키나 포함해도 됨");
+        }
     }
 
     public void Clear()
     {
         mAutomateKR.Clear();
-
         TextField = mAutomateKR.completeText + mAutomateKR.ingWord;
         inputKeySeq = null;
+        UpdateNextKey();
     }
 
     // �ѱ�Ű
     
     public void KeyDownHangul(char _key)
     {
+        if(_key == 'B')
+        {
+            DeleteInput();
+            return;
+        }
+
         if (_key == 'C') // ���߿� �׳� �ܾ� �ϼ��Ǹ� �ڵ����� �Ѿ�� ����?
         {
             CheckInput(targetWord);
-            // Clear();
+            return;
         }
 
         mAutomateKR.SetKeyCode(_key);
-
         TextField = mAutomateKR.completeText + mAutomateKR.ingWord;
         UpdateNextKey();
 
@@ -152,30 +171,33 @@ public class InputManager : MonoBehaviour
     {
         inputKeySeq = KeySequence(TextField);
         //Debug.LogFormat("{0} {1}", inputKeySeq.ArrayToString(), targetKeySeq.ArrayToString());
-        for (int i = 0; i < inputKeySeq.Length; i++)
+        for (int i = 0; i < inputKeySeq.ArrayToString().Length; i++)
         {
             if (inputKeySeq[i] != targetKeySeq[i])
             {
                 keyCnt = i;
+                DebugNextKey();
                 return;
             }            
         }
-        keyCnt = inputKeySeq.Length;
+        keyCnt = inputKeySeq.ArrayToString().Length;
+        DebugNextKey();
+    }
 
+    void DeleteInput()
+    {
+        mAutomateKR.SetKeyCode(AutomateKR.KEY_CODE_BACKSPACE);
+        TextField = mAutomateKR.completeText + mAutomateKR.ingWord;
+        UpdateNextKey();
     }
 
     void CheckInput(string originWord)
     {
-        //Debug.LogFormat("{0} == {1} ? => {2}", TextField, originWord, TextField == originWord);
         if(TextField == originWord)
         {
             UpdateTargetWord();
-            //KeySequence(wordData[Random.Range(0, wordData.Count)][Random.Range(1, 4).ToString()].ToString());
         }
-        else
-        {
-            Clear();
-        }
+        Clear();
     }
 
     char[] KeySequence(string originWord) // originWord�� �Է��ϴµ� �ʿ��� key ���� �迭, keyTest �̸� �迭�� ��ȯ
