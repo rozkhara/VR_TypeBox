@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 using Valve.VR.InteractionSystem;
 using TMPro;
 
-public class KeyInteract : MonoBehaviour
+public class KeyInteractAlt : MonoBehaviour
 {
     static public InputManager _Keybord = null;
     private Interactable interactable;
@@ -29,7 +29,7 @@ public class KeyInteract : MonoBehaviour
         //var dist = Vector2.Distance(new Vector3(this.gameObject.transform.position.x, this.gameObject.transform.position.z), new Vector3(go.transform.position.x, go.transform.position.z));
         //Debug.Log("Distance : " + dist.ToString());
     }
-    private void OnHandHoverBegin(Hand hand)
+    private void OnHandHoverEnd(Hand hand)
     {
         //Debug.Log("Key name : " + this.name); 
         if (_Keybord != null)

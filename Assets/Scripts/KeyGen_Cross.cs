@@ -8,11 +8,12 @@ using TMPro;
 public class KeyGen_Cross : MonoBehaviour
 {
     private readonly string[] leftkeyName = new string[4] { "QWERT", "qwert", "asdfg", "zxcv" };
-    private readonly string[] rightkeyName = new string[4] { "BSCOP", "yuiop", "hjkl", "bnm" };
+    private readonly string[] rightkeyName = new string[4] { "OP", "yuiop", "hjkl", "bnm" };
     private const float distance = 0.7f;
     private const float angleVertical = 13f;
     private const float angleHorizontal = 13f;
     private const float itemAngle = 45f;
+    private InputManager IM = null;
 
     private GameObject go;
     private Quaternion lookDir;
@@ -31,6 +32,14 @@ public class KeyGen_Cross : MonoBehaviour
 
     [SerializeField] private GameObject keyObject;
 
+
+    private void Awake()
+    {
+        if (IM == null)
+        {
+            IM = GameObject.Find("InputManager").GetComponent<InputManager>();
+        }
+    }
     private void Start()
     {
         leftKeyObjects = new();
@@ -69,36 +78,54 @@ public class KeyGen_Cross : MonoBehaviour
                 rightKeyObjects[i].Add(go);
             }
         }
-        SetNewPosRot();
+        DirectionReset();
     }
     private void Update()
     {
-        if ((SteamVR_Input.GetState("LowerButtonLeft", SteamVR_Input_Sources.LeftHand) && SteamVR_Input.GetStateDown("LowerButtonRight", SteamVR_Input_Sources.RightHand)) ||
-            (SteamVR_Input.GetStateDown("LowerButtonLeft", SteamVR_Input_Sources.LeftHand) && SteamVR_Input.GetState("LowerButtonRight", SteamVR_Input_Sources.RightHand)))
+        if ((SteamVR_Input.GetStateDown("StickClick", SteamVR_Input_Sources.LeftHand) && SteamVR_Input.GetState("StickClick", SteamVR_Input_Sources.RightHand)) ||
+            (SteamVR_Input.GetState("StickClick", SteamVR_Input_Sources.LeftHand) && SteamVR_Input.GetStateDown("StickClick", SteamVR_Input_Sources.RightHand)))
         {
             //Debug.Log("Both Buttons Pressed");
-            SetNewPosRot();
+            DirectionReset();
         }
         //for PC debug purpose
         if (Input.GetKeyDown(KeyCode.Return))
         {
-            SetNewPosRot();
+            DirectionReset();
+        }
+
+        if (SteamVR_Input.GetStateDown("LowerButtonLeft", SteamVR_Input_Sources.LeftHand)){
+            IM.KeyDownHangul('B');
+        }
+        if (SteamVR_Input.GetStateDown("LowerButtonRight", SteamVR_Input_Sources.RightHand))
+        {
+            IM.KeyDownHangul('C');
+            SetNewPosRot(false);
         }
         GetDPadInputLeft();
         GetDPadInputRight();
     }
 
-    private void SetNewPosRot()
+    public void SetNewPosRot(bool useNewDir = false)
     {
-        DirectionReset();
         Vector3 position = this.gameObject.transform.position;
         Vector3 translateVector = new(0f, 0f, distance);
         Quaternion newDirLeft = Quaternion.AngleAxis(-angleHorizontal * 2, Vector3.up) * lookDir;
         Quaternion newDirRight = Quaternion.AngleAxis(angleHorizontal * 2, Vector3.up) * lookDir;
         RenewCrossKeysLeft();
         RenewCrossKeysRight();
-        RotateObjectItemsLeft(position, translateVector, newDirLeft);
-        RotateObjectItemsRight(position, translateVector, newDirRight);
+        if (useNewDir)
+        {
+            RotateObjectItemsLeft(position, translateVector, newDirLeft, true);
+            RotateObjectItemsRight(position, translateVector, newDirRight, true);
+        }
+        else
+        {
+            RotateObjectItemsLeft(position, translateVector, newDirLeft);
+            RotateObjectItemsRight(position, translateVector, newDirRight);
+        }
+        curDirectionLeft = direction.front;
+        curDirectionRight = direction.front;
     }
 
     private void RenewCrossKeysLeft()
@@ -117,18 +144,37 @@ public class KeyGen_Cross : MonoBehaviour
             ranNumListLeft = new List<int>();
             isKeyInstantiatedLeft = true;
         }
-        int ranNum;
-        for (int i = 0; i < 5; i++)
+        char targetKey = IM.GetNextKey();
+        GameObject go = flatItemListLeft.Where(x => x.name == targetKey.ToString()).SingleOrDefault();
+        int keyNum = flatItemListLeft.IndexOf(go);
+        if (keyNum != -1)
         {
-            do { ranNum = Random.Range(0, flatItemListLeft.Count); }
-            while (ranNumListLeft.Contains(ranNum));
-            ranNumListLeft.Add(ranNum);
+            ranNumListLeft.Add(keyNum);
+            int ranNum;
+            for (int i = 0; i < 4; i++)
+            {
+                do { ranNum = Random.Range(0, flatItemListLeft.Count); }
+                while (ranNumListLeft.Contains(ranNum));
+                ranNumListLeft.Add(ranNum);
+            }
+        }
+        else
+        {
+            int ranNum;
+            for (int i = 0; i < 5; i++)
+            {
+                do { ranNum = Random.Range(0, flatItemListLeft.Count); }
+                while (ranNumListLeft.Contains(ranNum));
+                ranNumListLeft.Add(ranNum);
+            }
         }
         for (int i = 0; i < 5; i++)
         {
             flatItemListLeft[ranNumListLeft[i]].SetActive(true);
         }
+        ranNumListLeft = ranNumListLeft.OrderBy(_ => Random.Range(0, int.MaxValue)).ToList();
     }
+
     private void RenewCrossKeysRight()
     {
         if (isKeyInstantiatedRight)
@@ -145,22 +191,43 @@ public class KeyGen_Cross : MonoBehaviour
             ranNumListRight = new List<int>();
             isKeyInstantiatedRight = true;
         }
-        int ranNum;
-        for (int i = 0; i < 5; i++)
+        char targetKey = IM.GetNextKey();
+        GameObject go = flatItemListRight.Where(x => x.name == targetKey.ToString()).SingleOrDefault();
+        int keyNum = flatItemListRight.IndexOf(go);
+        if (keyNum != -1)
         {
-            do { ranNum = Random.Range(0, flatItemListRight.Count); }
-            while (ranNumListRight.Contains(ranNum));
-            ranNumListRight.Add(ranNum);
+            ranNumListRight.Add(keyNum);
+            int ranNum;
+            for (int i = 0; i < 4; i++)
+            {
+                do { ranNum = Random.Range(0, flatItemListRight.Count); }
+                while (ranNumListRight.Contains(ranNum));
+                ranNumListRight.Add(ranNum);
+            }
+        }
+        else
+        {
+            int ranNum;
+            for (int i = 0; i < 5; i++)
+            {
+                do { ranNum = Random.Range(0, flatItemListRight.Count); }
+                while (ranNumListRight.Contains(ranNum));
+                ranNumListRight.Add(ranNum);
+            }
         }
         for (int i = 0; i < 5; i++)
         {
             flatItemListRight[ranNumListRight[i]].SetActive(true);
         }
+        ranNumListRight = ranNumListRight.OrderBy(_ => Random.Range(0, int.MaxValue)).ToList();
     }
 
-    private void RotateObjectItemsLeft(Vector3 position, Vector3 translateVector, Quaternion newDir)
+    private void RotateObjectItemsLeft(Vector3 position, Vector3 translateVector, Quaternion newDir, bool renewDirection = false)
     {
-        objectPosLeft = newDir * translateVector + position;
+        if (renewDirection)
+        {
+            objectPosLeft = newDir * translateVector + position;
+        }
         Quaternion baseObjDir = newDir;
         Quaternion objectDir = baseObjDir;
         Vector3 objectTVector = new(0f, 0f, -0.15f);
@@ -190,9 +257,12 @@ public class KeyGen_Cross : MonoBehaviour
         }
     }
 
-    private void RotateObjectItemsRight(Vector3 position, Vector3 translateVector, Quaternion newDir)
+    private void RotateObjectItemsRight(Vector3 position, Vector3 translateVector, Quaternion newDir, bool renewDirection = false)
     {
-        objectPosRight = newDir * translateVector + position;
+        if (renewDirection)
+        {
+            objectPosRight = newDir * translateVector + position;
+        }
         Quaternion baseObjDir = newDir;
         Quaternion objectDir = baseObjDir;
         Vector3 objectTVector = new(0f, 0f, -0.15f);
@@ -226,6 +296,7 @@ public class KeyGen_Cross : MonoBehaviour
     {
         Vector3 temp = this.gameObject.transform.eulerAngles;
         lookDir = Quaternion.Euler(new Vector3(temp.x, temp.y, 0f));
+        SetNewPosRot(true);
     }
 
     private void VirtualObjectRotate(direction desiredDirection, bool isLeft = true)

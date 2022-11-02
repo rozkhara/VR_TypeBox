@@ -98,6 +98,10 @@
       "type": "boolean"
     },
     {
+      "name": "/actions/default/in/StickClick",
+      "type": "boolean"
+    },
+    {
       "name": "/actions/default/out/Haptic",
       "type": "vibration"
     },
@@ -229,7 +233,8 @@
       "/actions/default/in/EastLeftHand": "East Left Hand",
       "/actions/default/in/EastRightHand": "East Right Hand",
       "/actions/default/in/WestLeftHand": "West Left Hand",
-      "/actions/default/in/WestRightHand": "West Right Hand"
+      "/actions/default/in/WestRightHand": "West Right Hand",
+      "/actions/default/in/StickClick": "Stick Click"
     }
   ]
 }

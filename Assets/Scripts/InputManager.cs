@@ -42,6 +42,7 @@ public class InputManager : MonoBehaviour
     void Awake()
     {
         KeyInteract._Keybord = this;
+        KeyInteractAlt._Keybord = this;
     }
 
     private void Start()
@@ -69,6 +70,11 @@ public class InputManager : MonoBehaviour
         }
     }
 
+    public char GetNextKey()
+    {
+        return targetKeySeq[keyCnt];
+    }
+
     public void Clear()
     {
         mAutomateKR.Clear();
@@ -78,10 +84,10 @@ public class InputManager : MonoBehaviour
     }
 
     // �ѱ�Ű
-    
+
     public void KeyDownHangul(char _key)
     {
-        if(_key == 'B')
+        if (_key == 'B')
         {
             DeleteInput();
             return;
@@ -137,7 +143,7 @@ public class InputManager : MonoBehaviour
         }
     }
 
-    
+
     bool StringCmp(string _ingWord, string curChar)
     {
         char[] curCharArray = KeySequence(curChar);
@@ -178,7 +184,7 @@ public class InputManager : MonoBehaviour
                 keyCnt = i;
                 DebugNextKey();
                 return;
-            }            
+            }
         }
         keyCnt = inputKeySeq.ArrayToString().Length;
         DebugNextKey();
@@ -193,7 +199,7 @@ public class InputManager : MonoBehaviour
 
     void CheckInput(string originWord)
     {
-        if(TextField == originWord)
+        if (TextField == originWord)
         {
             UpdateTargetWord();
         }
@@ -261,7 +267,7 @@ public class InputManager : MonoBehaviour
                 int j = 0;
                 do
                 {
-                    if(c[i] == st[j])
+                    if (c[i] == st[j])
                     {
                         ires[count] = j;
                         break;
@@ -269,7 +275,7 @@ public class InputManager : MonoBehaviour
                 } while (++j < 40);
                 count++;
             }
-            
+
         }
 
         // keyTest ��ü �̸��� ��ȯ

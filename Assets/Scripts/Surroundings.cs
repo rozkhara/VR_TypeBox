@@ -60,8 +60,8 @@ public class Surroundings : MonoBehaviour
     private void Update()
     {
 
-        if ((SteamVR_Input.GetState("LowerButtonLeft", SteamVR_Input_Sources.LeftHand) && SteamVR_Input.GetStateDown("LowerButtonRight", SteamVR_Input_Sources.RightHand)) ||
-            (SteamVR_Input.GetStateDown("LowerButtonLeft", SteamVR_Input_Sources.LeftHand) && SteamVR_Input.GetState("LowerButtonRight", SteamVR_Input_Sources.RightHand)))
+        if ((SteamVR_Input.GetStateDown("StickClick", SteamVR_Input_Sources.LeftHand) && SteamVR_Input.GetState("StickClick", SteamVR_Input_Sources.RightHand)) ||
+            (SteamVR_Input.GetState("StickClick", SteamVR_Input_Sources.LeftHand) && SteamVR_Input.GetStateDown("StickClick", SteamVR_Input_Sources.RightHand)))
         {
             //Debug.Log("Both Buttons Pressed");
             SetNewPosRot();
@@ -81,7 +81,7 @@ public class Surroundings : MonoBehaviour
             Quaternion basedir = newDir;
             newDir = Quaternion.AngleAxis(-angleVertical, newRight) * basedir;
 
-            newDir = Quaternion.AngleAxis(angleHorizontal/2, Vector3.up) * newDir;
+            newDir = Quaternion.AngleAxis(angleHorizontal / 2, Vector3.up) * newDir;
             foreach (GameObject GO in items)
             {
                 Vector3 newPos = newDir * translateVector + position;
@@ -96,7 +96,7 @@ public class Surroundings : MonoBehaviour
             Quaternion basedir = newDir;
             newDir = Quaternion.AngleAxis(-angleVertical, newRight) * basedir;
 
-            newDir = Quaternion.AngleAxis(-angleHorizontal/2, Vector3.up) * newDir;
+            newDir = Quaternion.AngleAxis(-angleHorizontal / 2, Vector3.up) * newDir;
             foreach (GameObject GO in items)
             {
                 Vector3 newPos = newDir * translateVector + position;
