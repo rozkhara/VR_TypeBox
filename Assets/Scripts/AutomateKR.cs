@@ -51,9 +51,9 @@ public class AutomateKR
         {'n', 32},
         {'m', 37},
 
-        {'B', -3},
-        {'S', -1},
-        {'C', -2},
+        //{'B', -3},
+        //{'S', -1},
+        //{'C', -2},
     };
 
     // 초성, 중성, 종성 테이블.
@@ -212,8 +212,6 @@ public class AutomateKR
 
                 // 정답 체크 함수
                 // Debug.Log(completeText);
-
-                Clear();
             }
             else if (nKeyCode == KEY_CODE_BACKSPACE) // 지우기
             {
