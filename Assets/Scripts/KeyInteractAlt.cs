@@ -38,4 +38,8 @@ public class KeyInteractAlt : MonoBehaviour
             KG.SetNewPosRot(false);
         }
     }
+    private void OnHandHoverBegin(Hand hand)
+    {
+        Managers.SoundManager.Instance.PlaySFXSound("punch");
+    }
 }

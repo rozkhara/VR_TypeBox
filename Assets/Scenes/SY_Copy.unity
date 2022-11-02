@@ -913,7 +913,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainBgmAudioClip: {fileID: 0}
-  sfxAudioClips: []
+  sfxAudioClips:
+  - {fileID: 8300000, guid: 92e71ae25ae50e64bb92dde0a253e3aa, type: 3}
 --- !u!4 &1607740615
 Transform:
   m_ObjectHideFlags: 0
@@ -922,7 +923,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1607740613}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.38990808, y: 0.898298, z: 0.6894204}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
