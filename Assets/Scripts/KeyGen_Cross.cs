@@ -18,11 +18,16 @@ public class KeyGen_Cross : MonoBehaviour
     private Quaternion lookDir;
     private List<List<GameObject>> leftKeyObjects = null;
     private List<List<GameObject>> rightKeyObjects = null;
-    private List<GameObject> flatItemList = null;
-    private List<int> ranNumList = null;
-    private bool isKeyInstantiated = false;
-    private direction curDirection = direction.front;
-    private Vector3 objectPos = new();
+    private List<GameObject> flatItemListLeft = null;
+    private List<GameObject> flatItemListRight = null;
+    private List<int> ranNumListLeft = null;
+    private List<int> ranNumListRight = null;
+    private bool isKeyInstantiatedLeft = false;
+    private bool isKeyInstantiatedRight = false;
+    private direction curDirectionLeft = direction.front;
+    private direction curDirectionRight = direction.front;
+    private Vector3 objectPosLeft = new();
+    private Vector3 objectPosRight = new();
 
     [SerializeField] private GameObject keyObject;
 
@@ -64,7 +69,7 @@ public class KeyGen_Cross : MonoBehaviour
                 rightKeyObjects[i].Add(go);
             }
         }
-        //SetNewPosRot();
+        SetNewPosRot();
     }
     private void Update()
     {
@@ -74,7 +79,13 @@ public class KeyGen_Cross : MonoBehaviour
             //Debug.Log("Both Buttons Pressed");
             SetNewPosRot();
         }
-        GetDPadInput();
+        //for PC debug purpose
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
+            SetNewPosRot();
+        }
+        GetDPadInputLeft();
+        GetDPadInputRight();
     }
 
     private void SetNewPosRot()
@@ -82,36 +93,74 @@ public class KeyGen_Cross : MonoBehaviour
         DirectionReset();
         Vector3 position = this.gameObject.transform.position;
         Vector3 translateVector = new(0f, 0f, distance);
-        Quaternion newDir = lookDir;
-        Instantiate_CrossKeys(position, translateVector, newDir);
-        RotateObjectItems(position, translateVector, newDir);
+        Quaternion newDirLeft = Quaternion.AngleAxis(-angleHorizontal * 2, Vector3.up) * lookDir;
+        Quaternion newDirRight = Quaternion.AngleAxis(angleHorizontal * 2, Vector3.up) * lookDir;
+        RenewCrossKeysLeft();
+        RenewCrossKeysRight();
+        RotateObjectItemsLeft(position, translateVector, newDirLeft);
+        RotateObjectItemsRight(position, translateVector, newDirRight);
     }
 
-    private void Instantiate_CrossKeys(Vector3 position, Vector3 translateVector, Quaternion newDir)
+    private void RenewCrossKeysLeft()
     {
-        if (isKeyInstantiated)
+        if (isKeyInstantiatedLeft)
         {
-            return;
+            for (int i = 0; i < 5; i++)
+            {
+                flatItemListLeft[ranNumListLeft[i]].SetActive(false);
+            }
+            ranNumListLeft.Clear();
         }
-        flatItemList = leftKeyObjects.SelectMany(x => x).ToList();
-        ranNumList = new List<int>();
+        else
+        {
+            flatItemListLeft = leftKeyObjects.SelectMany(x => x).ToList();
+            ranNumListLeft = new List<int>();
+            isKeyInstantiatedLeft = true;
+        }
         int ranNum;
         for (int i = 0; i < 5; i++)
         {
-            do { ranNum = Random.Range(0, flatItemList.Count); }
-            while (ranNumList.Contains(ranNum));
-            ranNumList.Add(ranNum);
+            do { ranNum = Random.Range(0, flatItemListLeft.Count); }
+            while (ranNumListLeft.Contains(ranNum));
+            ranNumListLeft.Add(ranNum);
         }
         for (int i = 0; i < 5; i++)
         {
-            flatItemList[ranNumList[i]].SetActive(true);
+            flatItemListLeft[ranNumListLeft[i]].SetActive(true);
         }
-        isKeyInstantiated = true;
+    }
+    private void RenewCrossKeysRight()
+    {
+        if (isKeyInstantiatedRight)
+        {
+            for (int i = 0; i < 5; i++)
+            {
+                flatItemListRight[ranNumListRight[i]].SetActive(false);
+            }
+            ranNumListRight.Clear();
+        }
+        else
+        {
+            flatItemListRight = rightKeyObjects.SelectMany(x => x).ToList();
+            ranNumListRight = new List<int>();
+            isKeyInstantiatedRight = true;
+        }
+        int ranNum;
+        for (int i = 0; i < 5; i++)
+        {
+            do { ranNum = Random.Range(0, flatItemListRight.Count); }
+            while (ranNumListRight.Contains(ranNum));
+            ranNumListRight.Add(ranNum);
+        }
+        for (int i = 0; i < 5; i++)
+        {
+            flatItemListRight[ranNumListRight[i]].SetActive(true);
+        }
     }
 
-    private void RotateObjectItems(Vector3 position, Vector3 translateVector, Quaternion newDir)
+    private void RotateObjectItemsLeft(Vector3 position, Vector3 translateVector, Quaternion newDir)
     {
-        objectPos = newDir * translateVector + position;
+        objectPosLeft = newDir * translateVector + position;
         Quaternion baseObjDir = newDir;
         Quaternion objectDir = baseObjDir;
         Vector3 objectTVector = new(0f, 0f, -0.15f);
@@ -122,22 +171,54 @@ public class KeyGen_Cross : MonoBehaviour
                 case direction.front:
                     break;
                 case direction.left:
-                    objectDir = Quaternion.AngleAxis(itemAngle, flatItemList[ranNumList[0]].transform.up) * baseObjDir;
+                    objectDir = Quaternion.AngleAxis(itemAngle, flatItemListLeft[ranNumListLeft[0]].transform.up) * baseObjDir;
                     break;
                 case direction.right:
-                    objectDir = Quaternion.AngleAxis(-itemAngle, flatItemList[ranNumList[0]].transform.up) * baseObjDir;
+                    objectDir = Quaternion.AngleAxis(-itemAngle, flatItemListLeft[ranNumListLeft[0]].transform.up) * baseObjDir;
                     break;
                 case direction.up:
-                    objectDir = Quaternion.AngleAxis(itemAngle, flatItemList[ranNumList[0]].transform.right) * baseObjDir;
+                    objectDir = Quaternion.AngleAxis(itemAngle, flatItemListLeft[ranNumListLeft[0]].transform.right) * baseObjDir;
                     break;
                 case direction.down:
-                    objectDir = Quaternion.AngleAxis(-itemAngle, flatItemList[ranNumList[0]].transform.right) * baseObjDir;
+                    objectDir = Quaternion.AngleAxis(-itemAngle, flatItemListLeft[ranNumListLeft[0]].transform.right) * baseObjDir;
                     break;
                 default:
                     break;
             }
-            Vector3 objectItemPos = objectDir * objectTVector + objectPos;
-            flatItemList[ranNumList[i]].transform.SetPositionAndRotation(objectItemPos, objectDir);
+            Vector3 objectItemPos = objectDir * objectTVector + objectPosLeft;
+            flatItemListLeft[ranNumListLeft[i]].transform.SetPositionAndRotation(objectItemPos, objectDir);
+        }
+    }
+
+    private void RotateObjectItemsRight(Vector3 position, Vector3 translateVector, Quaternion newDir)
+    {
+        objectPosRight = newDir * translateVector + position;
+        Quaternion baseObjDir = newDir;
+        Quaternion objectDir = baseObjDir;
+        Vector3 objectTVector = new(0f, 0f, -0.15f);
+        for (int i = 0; i < 5; i++)
+        {
+            switch ((direction)i)
+            {
+                case direction.front:
+                    break;
+                case direction.left:
+                    objectDir = Quaternion.AngleAxis(itemAngle, flatItemListRight[ranNumListRight[0]].transform.up) * baseObjDir;
+                    break;
+                case direction.right:
+                    objectDir = Quaternion.AngleAxis(-itemAngle, flatItemListRight[ranNumListRight[0]].transform.up) * baseObjDir;
+                    break;
+                case direction.up:
+                    objectDir = Quaternion.AngleAxis(itemAngle, flatItemListRight[ranNumListRight[0]].transform.right) * baseObjDir;
+                    break;
+                case direction.down:
+                    objectDir = Quaternion.AngleAxis(-itemAngle, flatItemListRight[ranNumListRight[0]].transform.right) * baseObjDir;
+                    break;
+                default:
+                    break;
+            }
+            Vector3 objectItemPos = objectDir * objectTVector + objectPosRight;
+            flatItemListRight[ranNumListRight[i]].transform.SetPositionAndRotation(objectItemPos, objectDir);
         }
     }
 
@@ -147,95 +228,183 @@ public class KeyGen_Cross : MonoBehaviour
         lookDir = Quaternion.Euler(new Vector3(temp.x, temp.y, 0f));
     }
 
-    private void VirtualObjectRotate(direction desiredDirection)
+    private void VirtualObjectRotate(direction desiredDirection, bool isLeft = true)
     {
-        if (curDirection == direction.left)
+        if (isLeft)
         {
-            if (desiredDirection == direction.right)
+            if (curDirectionLeft == direction.left)
             {
-                curDirection = direction.front;
-                for (int i = 0; i < ranNumList.Count(); i++)
+                if (desiredDirection == direction.right)
                 {
-                    flatItemList[ranNumList[i]].transform.RotateAround(objectPos, flatItemList[ranNumList[0]].transform.up, itemAngle);
+                    curDirectionLeft = direction.front;
+                    for (int i = 0; i < ranNumListLeft.Count(); i++)
+                    {
+                        flatItemListLeft[ranNumListLeft[i]].transform.RotateAround(objectPosLeft, flatItemListLeft[ranNumListLeft[0]].transform.up, itemAngle);
+                    }
                 }
             }
-        }
-        else if (curDirection == direction.front)
-        {
-            if (desiredDirection == direction.right)
+            else if (curDirectionLeft == direction.front)
             {
-                curDirection = direction.right;
-                for (int i = 0; i < ranNumList.Count(); i++)
+                if (desiredDirection == direction.right)
                 {
-                    flatItemList[ranNumList[i]].transform.RotateAround(objectPos, flatItemList[ranNumList[0]].transform.up, itemAngle);
+                    curDirectionLeft = direction.right;
+                    for (int i = 0; i < ranNumListLeft.Count(); i++)
+                    {
+                        flatItemListLeft[ranNumListLeft[i]].transform.RotateAround(objectPosLeft, flatItemListLeft[ranNumListLeft[0]].transform.up, itemAngle);
+                    }
+                }
+                else if (desiredDirection == direction.up)
+                {
+                    curDirectionLeft = direction.up;
+                    for (int i = 0; i < ranNumListLeft.Count(); i++)
+                    {
+                        flatItemListLeft[ranNumListLeft[i]].transform.RotateAround(objectPosLeft, flatItemListLeft[ranNumListLeft[0]].transform.right, -itemAngle);
+                    }
+                }
+                else if (desiredDirection == direction.down)
+                {
+                    curDirectionLeft = direction.down;
+                    for (int i = 0; i < ranNumListLeft.Count(); i++)
+                    {
+                        flatItemListLeft[ranNumListLeft[i]].transform.RotateAround(objectPosLeft, flatItemListLeft[ranNumListLeft[0]].transform.right, itemAngle);
+                    }
+                }
+                else if (desiredDirection == direction.left)
+                {
+                    curDirectionLeft = direction.left;
+                    for (int i = 0; i < ranNumListLeft.Count(); i++)
+                    {
+                        flatItemListLeft[ranNumListLeft[i]].transform.RotateAround(objectPosLeft, flatItemListLeft[ranNumListLeft[0]].transform.up, -itemAngle);
+                    }
                 }
             }
-            else if (desiredDirection == direction.up)
+            else if (curDirectionLeft == direction.right)
             {
-                curDirection = direction.up;
-                for (int i = 0; i < ranNumList.Count(); i++)
+                if (desiredDirection == direction.left)
                 {
-                    flatItemList[ranNumList[i]].transform.RotateAround(objectPos, flatItemList[ranNumList[0]].transform.right, -itemAngle);
+                    curDirectionLeft = direction.front;
+                    for (int i = 0; i < ranNumListLeft.Count(); i++)
+                    {
+                        flatItemListLeft[ranNumListLeft[i]].transform.RotateAround(objectPosLeft, flatItemListLeft[ranNumListLeft[0]].transform.up, -itemAngle);
+                    }
                 }
             }
-            else if (desiredDirection == direction.down)
+            else if (curDirectionLeft == direction.up)
             {
-                curDirection = direction.down;
-                for (int i = 0; i < ranNumList.Count(); i++)
+                if (desiredDirection == direction.down)
                 {
-                    flatItemList[ranNumList[i]].transform.RotateAround(objectPos, flatItemList[ranNumList[0]].transform.right, itemAngle);
+                    curDirectionLeft = direction.front;
+                    for (int i = 0; i < ranNumListLeft.Count(); i++)
+                    {
+                        flatItemListLeft[ranNumListLeft[i]].transform.RotateAround(objectPosLeft, flatItemListLeft[ranNumListLeft[0]].transform.right, itemAngle);
+                    }
                 }
             }
-            else if (desiredDirection == direction.left)
+            else if (curDirectionLeft == direction.down)
             {
-                curDirection = direction.left;
-                for (int i = 0; i < ranNumList.Count(); i++)
+                if (desiredDirection == direction.up)
                 {
-                    flatItemList[ranNumList[i]].transform.RotateAround(objectPos, flatItemList[ranNumList[0]].transform.up, -itemAngle);
+                    curDirectionLeft = direction.front;
+                    for (int i = 0; i < ranNumListLeft.Count(); i++)
+                    {
+                        flatItemListLeft[ranNumListLeft[i]].transform.RotateAround(objectPosLeft, flatItemListLeft[ranNumListLeft[0]].transform.right, -itemAngle);
+                    }
                 }
             }
-        }
-        else if (curDirection == direction.right)
-        {
-            if (desiredDirection == direction.left)
+            else
             {
-                curDirection = direction.front;
-                for (int i = 0; i < ranNumList.Count(); i++)
-                {
-                    flatItemList[ranNumList[i]].transform.RotateAround(objectPos, flatItemList[ranNumList[0]].transform.up, -itemAngle);
-                }
-            }
-        }
-        else if (curDirection == direction.up)
-        {
-            if (desiredDirection == direction.down)
-            {
-                curDirection = direction.front;
-                for (int i = 0; i < ranNumList.Count(); i++)
-                {
-                    flatItemList[ranNumList[i]].transform.RotateAround(objectPos, flatItemList[ranNumList[0]].transform.right, itemAngle);
-                }
-            }
-        }
-        else if (curDirection == direction.down)
-        {
-            if (desiredDirection == direction.up)
-            {
-                curDirection = direction.front;
-                for (int i = 0; i < ranNumList.Count(); i++)
-                {
-                    flatItemList[ranNumList[i]].transform.RotateAround(objectPos, flatItemList[ranNumList[0]].transform.right, -itemAngle);
-                }
+                Debug.LogError("Undefined");
             }
         }
         else
         {
-            Debug.LogError("Undefined");
+            if (curDirectionRight == direction.left)
+            {
+                if (desiredDirection == direction.right)
+                {
+                    curDirectionRight = direction.front;
+                    for (int i = 0; i < ranNumListRight.Count(); i++)
+                    {
+                        flatItemListRight[ranNumListRight[i]].transform.RotateAround(objectPosRight, flatItemListRight[ranNumListRight[0]].transform.up, itemAngle);
+                    }
+                }
+            }
+            else if (curDirectionRight == direction.front)
+            {
+                if (desiredDirection == direction.right)
+                {
+                    curDirectionRight = direction.right;
+                    for (int i = 0; i < ranNumListRight.Count(); i++)
+                    {
+                        flatItemListRight[ranNumListRight[i]].transform.RotateAround(objectPosRight, flatItemListRight[ranNumListRight[0]].transform.up, itemAngle);
+                    }
+                }
+                else if (desiredDirection == direction.up)
+                {
+                    curDirectionRight = direction.up;
+                    for (int i = 0; i < ranNumListRight.Count(); i++)
+                    {
+                        flatItemListRight[ranNumListRight[i]].transform.RotateAround(objectPosRight, flatItemListRight[ranNumListRight[0]].transform.right, -itemAngle);
+                    }
+                }
+                else if (desiredDirection == direction.down)
+                {
+                    curDirectionRight = direction.down;
+                    for (int i = 0; i < ranNumListRight.Count(); i++)
+                    {
+                        flatItemListRight[ranNumListRight[i]].transform.RotateAround(objectPosRight, flatItemListRight[ranNumListRight[0]].transform.right, itemAngle);
+                    }
+                }
+                else if (desiredDirection == direction.left)
+                {
+                    curDirectionRight = direction.left;
+                    for (int i = 0; i < ranNumListRight.Count(); i++)
+                    {
+                        flatItemListRight[ranNumListRight[i]].transform.RotateAround(objectPosRight, flatItemListRight[ranNumListRight[0]].transform.up, -itemAngle);
+                    }
+                }
+            }
+            else if (curDirectionRight == direction.right)
+            {
+                if (desiredDirection == direction.left)
+                {
+                    curDirectionRight = direction.front;
+                    for (int i = 0; i < ranNumListRight.Count(); i++)
+                    {
+                        flatItemListRight[ranNumListRight[i]].transform.RotateAround(objectPosRight, flatItemListRight[ranNumListRight[0]].transform.up, -itemAngle);
+                    }
+                }
+            }
+            else if (curDirectionRight == direction.up)
+            {
+                if (desiredDirection == direction.down)
+                {
+                    curDirectionRight = direction.front;
+                    for (int i = 0; i < ranNumListRight.Count(); i++)
+                    {
+                        flatItemListRight[ranNumListRight[i]].transform.RotateAround(objectPosRight, flatItemListRight[ranNumListRight[0]].transform.right, itemAngle);
+                    }
+                }
+            }
+            else if (curDirectionRight == direction.down)
+            {
+                if (desiredDirection == direction.up)
+                {
+                    curDirectionRight = direction.front;
+                    for (int i = 0; i < ranNumListRight.Count(); i++)
+                    {
+                        flatItemListRight[ranNumListRight[i]].transform.RotateAround(objectPosRight, flatItemListRight[ranNumListRight[0]].transform.right, -itemAngle);
+                    }
+                }
+            }
+            else
+            {
+                Debug.LogError("Undefined");
+            }
         }
-
     }
 
-    private direction GetDPadInput()
+    private direction GetDPadInputLeft()
     {
         if (SteamVR_Input.GetStateDown("NorthLeftHand", SteamVR_Input_Sources.LeftHand))
         {
@@ -265,6 +434,40 @@ public class KeyGen_Cross : MonoBehaviour
         {
             direction desiredDirection = direction.front;
             VirtualObjectRotate(desiredDirection);
+            return desiredDirection;
+        }
+    }
+
+    private direction GetDPadInputRight()
+    {
+        if (SteamVR_Input.GetStateDown("NorthRightHand", SteamVR_Input_Sources.RightHand))
+        {
+            direction desiredDirection = direction.up;
+            VirtualObjectRotate(desiredDirection, false);
+            return desiredDirection;
+        }
+        else if (SteamVR_Input.GetStateDown("EastRightHand", SteamVR_Input_Sources.RightHand))
+        {
+            direction desiredDirection = direction.right;
+            VirtualObjectRotate(desiredDirection, false);
+            return desiredDirection;
+        }
+        else if (SteamVR_Input.GetStateDown("WestRightHand", SteamVR_Input_Sources.RightHand))
+        {
+            direction desiredDirection = direction.left;
+            VirtualObjectRotate(desiredDirection, false);
+            return desiredDirection;
+        }
+        else if (SteamVR_Input.GetStateDown("SouthRightHand", SteamVR_Input_Sources.RightHand))
+        {
+            direction desiredDirection = direction.down;
+            VirtualObjectRotate(desiredDirection, false);
+            return desiredDirection;
+        }
+        else
+        {
+            direction desiredDirection = direction.front;
+            VirtualObjectRotate(desiredDirection, false);
             return desiredDirection;
         }
     }
