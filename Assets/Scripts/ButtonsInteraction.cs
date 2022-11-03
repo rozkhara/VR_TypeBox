@@ -40,6 +40,10 @@ public class ButtonsInteraction : MonoBehaviour
             SoundManager.Instance.PlaySFXSound("BoxingBell1");
             Destroy(this.gameObject);
         }
+        else if (this.gameObject.name.Contains("SceneHomeButton"))
+        {
+            //SceneManager.LoadScene("StartScene")
+        }
         else
         {
             Debug.LogError("Undefined");
