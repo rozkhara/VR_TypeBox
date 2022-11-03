@@ -94,27 +94,32 @@ public class InputManager : MonoBehaviour
     {
         if (_key == 'B')
         {
+            bool bCheck = false;
+            bool tmp = check;
+
+            if (mAutomateKR.ingWord == null) bCheck = true;
+
             DeleteInput();
 
             SetCheck();
 
             if (check)
             {
-                if (mAutomateKR.ingWord == null && mAutomateKR.completeText != null && mAutomateKR.completeText != "")
+                if (bCheck && mAutomateKR.ingWord == null && mAutomateKR.completeText != null && mAutomateKR.completeText != "")
                 {
+                    if (mAutomateKR.completeText != completeText && wordIdx > 0)
+                    {
+                        completeText = mAutomateKR.completeText;
+                        wordIdx--;
+                    }
+
                     string completeString = KeySequence(mAutomateKR.completeText[wordIdx].ToString()).ArrayToString().Trim();
                     idx -= completeString.Length;
                 }
-                else if (mAutomateKR.ingWord != null) idx--;
+                else if (!bCheck) idx--;
 
                 targetTextField.text = targetWord;
-                if (mAutomateKR.completeText != completeText && wordIdx > 0)
-                {
-                    completeText = mAutomateKR.completeText;
-                    wordIdx--;
-                }
             }
-
 
             return;
         }
@@ -129,9 +134,6 @@ public class InputManager : MonoBehaviour
         mAutomateKR.SetKeyCode(_key);
         TextField = mAutomateKR.completeText + mAutomateKR.ingWord;
         UpdateNextKey();
-
-        Debug.Log("IDX : " + idx);
-        Debug.Log("Word IDX : " + wordIdx);
 
         string targetCharArray = KeySequence(targetWord).ArrayToString().Trim();
         string curTextCharArray = KeySequence(TextField).ArrayToString().Trim();
@@ -175,6 +177,8 @@ public class InputManager : MonoBehaviour
         }
         */
 
+        SetCheck();
+
         if (check && mAutomateKR.completeText != completeText)
         {
             if (wordIdx < targetWord.Length - 1) wordIdx++;
@@ -194,12 +198,6 @@ public class InputManager : MonoBehaviour
         {
             idx++;
         }
-
-        SetCheck();
-
-        Debug.Log("CHECK : " + check);
-
-        Debug.Log(targetCharArray[idx]);
     }
 
     private void SetCheck()
