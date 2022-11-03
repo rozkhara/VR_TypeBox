@@ -32,11 +32,15 @@ public class Surroundings : MonoBehaviour
 
     public void OnStartButtonClicked()
     {
-        SetNewPosRot();
+        Initialize();
         isStarted = true;
     }
 
     private void Start()
+    {
+    }
+
+    private void Initialize()
     {
         leftKeyObjects = new();
         rightKeyObjects = new();
@@ -74,6 +78,7 @@ public class Surroundings : MonoBehaviour
         }
         SetNewPosRot();
     }
+
     private void Update()
     {
         if (!isStarted)
