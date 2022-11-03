@@ -31,7 +31,7 @@ public class KeyInteract : MonoBehaviour
         { 
             ParticleManager.Instance.PlayParticle("Hit_VFX", this.gameObject.transform.GetChild(0).transform.position);
             _Keybord.KeyDownHangul(this.name[0]);
-            Managers.SoundManager.Instance.PlaySFXSound("punch");
+            SoundManager.Instance.PlaySFXSound("punch");
         }
     }
 }

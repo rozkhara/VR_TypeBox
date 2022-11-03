@@ -41,6 +41,6 @@ public class KeyInteractAlt : MonoBehaviour
     private void OnHandHoverBegin(Hand hand)
     {
         ParticleManager.Instance.PlayParticle("Hit_VFX", this.gameObject.transform.GetChild(0).transform.position);
-        Managers.SoundManager.Instance.PlaySFXSound("punch");
+        SoundManager.Instance.PlaySFXSound("punch");
     }
 }

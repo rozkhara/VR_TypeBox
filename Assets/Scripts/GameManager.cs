@@ -68,7 +68,7 @@ public class GameManager : MonoBehaviour
         if (timer < 0f)
         {
             timerText.text = "0.00";
-            Managers.SoundManager.Instance.PlaySFXSound("BoxingBell3");
+            SoundManager.Instance.PlaySFXSound("BoxingBell3");
 
             Time.timeScale = 0f;
             isGameOver = true;

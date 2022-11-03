@@ -6,29 +6,38 @@ using Valve.VR.InteractionSystem;
 
 public class ButtonsInteraction : MonoBehaviour
 {
+    private GameObject _HC;
+
+    private void Awake()
+    {
+        _HC = GameObject.Find("HeadCollider");
+    }
+
     private void OnHandHoverBegin()
     {
         if (this.gameObject.name.Contains("PadKey"))
         {
             Debug.Log("PadKey interacted");
+            _HC.GetComponent<Surroundings>().enabled = true;
             //SceneManager.LoadScene("SY");
         }
         else if (this.gameObject.name.Contains("PlusKey"))
         {
             Debug.Log("PlusKey interacted");
+            _HC.GetComponent<KeyGen_Cross>().enabled = true;
             //SceneManager.LoadScene("SY_Copy");
         }
         else if (this.gameObject.name.Contains("SceneStartButton"))
         {
             if (SceneManager.GetActiveScene().name.Contains("Copy"))
             {
-                GameObject.Find("HeadCollider").GetComponent<KeyGen_Cross>().OnStartButtonClicked();
+                _HC.GetComponent<KeyGen_Cross>().OnStartButtonClicked();
             }
             else if (SceneManager.GetActiveScene().name == "SY")
             {
-                GameObject.Find("HeadCollider").GetComponent<Surroundings>().OnStartButtonClicked();
+                _HC.GetComponent<Surroundings>().OnStartButtonClicked();
             }
-            Managers.SoundManager.Instance.PlaySFXSound("BoxingBell1");
+            SoundManager.Instance.PlaySFXSound("BoxingBell1");
             Destroy(this.gameObject);
         }
         else
