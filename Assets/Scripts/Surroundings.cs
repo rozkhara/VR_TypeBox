@@ -36,10 +36,6 @@ public class Surroundings : MonoBehaviour
         isStarted = true;
     }
 
-    private void Start()
-    {
-    }
-
     private void Initialize()
     {
         leftKeyObjects = new();

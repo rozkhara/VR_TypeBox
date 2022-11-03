@@ -10,14 +10,9 @@ public class KeyInteract : MonoBehaviour
     static public InputManager _Keybord = null;
     private Interactable interactable;
     public TextMeshPro keyName = null;
-    private KeyGen_Cross KG = null;
 
     GameObject go;
 
-    private void Awake()
-    {
-        KG = GameObject.Find("HeadCollider").GetComponent<KeyGen_Cross>();
-    }
     private void Start()
     {
         interactable = GetComponent<Interactable>();
@@ -36,7 +31,7 @@ public class KeyInteract : MonoBehaviour
         { 
             ParticleManager.Instance.PlayParticle("Hit_VFX", this.gameObject.transform.GetChild(0).transform.position);
             _Keybord.KeyDownHangul(this.name[0]);
-            KG.SetNewPosRot(false);
+            Managers.SoundManager.Instance.PlaySFXSound("punch");
         }
     }
 }
