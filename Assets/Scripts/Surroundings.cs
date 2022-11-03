@@ -17,8 +17,8 @@ public class Surroundings : MonoBehaviour
 
     private GameObject go;
     private Quaternion lookDir;
-    private List<List<GameObject>> leftKeyObjects = null;
-    private List<List<GameObject>> rightKeyObjects = null;
+    public List<List<GameObject>> LeftKeyObjects { get; private set; } = null;
+    public List<List<GameObject>> RightKeyObjects { get; private set; } = null;
 
     [SerializeField] private GameObject keyObject;
 
@@ -38,20 +38,20 @@ public class Surroundings : MonoBehaviour
 
     private void Initialize()
     {
-        leftKeyObjects = new();
-        rightKeyObjects = new();
+        LeftKeyObjects = new();
+        RightKeyObjects = new();
         char temp;
         for (int i = 0; i < 4; i++)
         {
-            leftKeyObjects.Add(new List<GameObject>());
-            rightKeyObjects.Add(new List<GameObject>());
+            LeftKeyObjects.Add(new List<GameObject>());
+            RightKeyObjects.Add(new List<GameObject>());
             for (int j = leftkeyName[i].Length - 1; j >= 0; j--)
             {
                 go = Instantiate(keyObject);
                 temp = leftkeyName[i][j];
                 go.name = temp.ToString();
                 go.GetComponentInChildren<TextMeshPro>().text = AutomateKR.SOUND_TABLE[AutomateKR.HANGULE_KEY_TABLE[temp]].ToString();
-                leftKeyObjects[i].Add(go);
+                LeftKeyObjects[i].Add(go);
             }
             for (int j = 0; j < rightkeyName[i].Length; j++)
             {
@@ -69,7 +69,7 @@ public class Surroundings : MonoBehaviour
                         go.GetComponentInChildren<TextMeshPro>().text = AutomateKR.SOUND_TABLE[AutomateKR.HANGULE_KEY_TABLE[temp]].ToString();
                         break;
                 }
-                rightKeyObjects[i].Add(go);
+                RightKeyObjects[i].Add(go);
             }
         }
         SetNewPosRot();
@@ -106,7 +106,7 @@ public class Surroundings : MonoBehaviour
         Vector3 translateVector = new(0f, 0f, distance);
         Quaternion newDir = lookDir;
         Vector3 newRight = Vector3.Cross(-this.gameObject.transform.forward, Vector3.up);
-        foreach (List<GameObject> items in rightKeyObjects)
+        foreach (List<GameObject> items in RightKeyObjects)
         {
             Quaternion basedir = newDir;
             newDir = Quaternion.AngleAxis(-angleVertical, newRight) * basedir;
@@ -121,7 +121,7 @@ public class Surroundings : MonoBehaviour
             newDir = Quaternion.AngleAxis(angleVertical, newRight) * basedir;
         }
         newDir = lookDir;
-        foreach (List<GameObject> items in leftKeyObjects)
+        foreach (List<GameObject> items in LeftKeyObjects)
         {
             Quaternion basedir = newDir;
             newDir = Quaternion.AngleAxis(-angleVertical, newRight) * basedir;

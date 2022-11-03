@@ -18,8 +18,8 @@ public class KeyGen_Cross : MonoBehaviour
     private Quaternion lookDir;
     private List<List<GameObject>> leftKeyObjects = null;
     private List<List<GameObject>> rightKeyObjects = null;
-    private List<GameObject> flatItemListLeft = null;
-    private List<GameObject> flatItemListRight = null;
+    public List<GameObject> FlatItemListLeft { get; private set; } = null;
+    public List<GameObject> FlatItemListRight { get; private set; } = null;
     private List<int> ranNumListLeft = null;
     private List<int> ranNumListRight = null;
     private bool isKeyInstantiatedLeft = false;
@@ -145,26 +145,26 @@ public class KeyGen_Cross : MonoBehaviour
         {
             for (int i = 0; i < 5; i++)
             {
-                flatItemListLeft[ranNumListLeft[i]].SetActive(false);
+                FlatItemListLeft[ranNumListLeft[i]].SetActive(false);
             }
             ranNumListLeft.Clear();
         }
         else
         {
-            flatItemListLeft = leftKeyObjects.SelectMany(x => x).ToList();
+            FlatItemListLeft = leftKeyObjects.SelectMany(x => x).ToList();
             ranNumListLeft = new List<int>();
             isKeyInstantiatedLeft = true;
         }
         char targetKey = IM.GetNextKey();
-        GameObject go = flatItemListLeft.Where(x => x.name == targetKey.ToString()).SingleOrDefault();
-        int keyNum = flatItemListLeft.IndexOf(go);
+        GameObject go = FlatItemListLeft.Where(x => x.name == targetKey.ToString()).SingleOrDefault();
+        int keyNum = FlatItemListLeft.IndexOf(go);
         if (keyNum != -1)
         {
             ranNumListLeft.Add(keyNum);
             int ranNum;
             for (int i = 0; i < 4; i++)
             {
-                do { ranNum = Random.Range(0, flatItemListLeft.Count); }
+                do { ranNum = Random.Range(0, FlatItemListLeft.Count); }
                 while (ranNumListLeft.Contains(ranNum));
                 ranNumListLeft.Add(ranNum);
             }
@@ -174,14 +174,14 @@ public class KeyGen_Cross : MonoBehaviour
             int ranNum;
             for (int i = 0; i < 5; i++)
             {
-                do { ranNum = Random.Range(0, flatItemListLeft.Count); }
+                do { ranNum = Random.Range(0, FlatItemListLeft.Count); }
                 while (ranNumListLeft.Contains(ranNum));
                 ranNumListLeft.Add(ranNum);
             }
         }
         for (int i = 0; i < 5; i++)
         {
-            flatItemListLeft[ranNumListLeft[i]].SetActive(true);
+            FlatItemListLeft[ranNumListLeft[i]].SetActive(true);
         }
         ranNumListLeft = ranNumListLeft.OrderBy(_ => Random.Range(0, int.MaxValue)).ToList();
     }
@@ -192,26 +192,26 @@ public class KeyGen_Cross : MonoBehaviour
         {
             for (int i = 0; i < 5; i++)
             {
-                flatItemListRight[ranNumListRight[i]].SetActive(false);
+                FlatItemListRight[ranNumListRight[i]].SetActive(false);
             }
             ranNumListRight.Clear();
         }
         else
         {
-            flatItemListRight = rightKeyObjects.SelectMany(x => x).ToList();
+            FlatItemListRight = rightKeyObjects.SelectMany(x => x).ToList();
             ranNumListRight = new List<int>();
             isKeyInstantiatedRight = true;
         }
         char targetKey = IM.GetNextKey();
-        GameObject go = flatItemListRight.Where(x => x.name == targetKey.ToString()).SingleOrDefault();
-        int keyNum = flatItemListRight.IndexOf(go);
+        GameObject go = FlatItemListRight.Where(x => x.name == targetKey.ToString()).SingleOrDefault();
+        int keyNum = FlatItemListRight.IndexOf(go);
         if (keyNum != -1)
         {
             ranNumListRight.Add(keyNum);
             int ranNum;
             for (int i = 0; i < 4; i++)
             {
-                do { ranNum = Random.Range(0, flatItemListRight.Count); }
+                do { ranNum = Random.Range(0, FlatItemListRight.Count); }
                 while (ranNumListRight.Contains(ranNum));
                 ranNumListRight.Add(ranNum);
             }
@@ -221,14 +221,14 @@ public class KeyGen_Cross : MonoBehaviour
             int ranNum;
             for (int i = 0; i < 5; i++)
             {
-                do { ranNum = Random.Range(0, flatItemListRight.Count); }
+                do { ranNum = Random.Range(0, FlatItemListRight.Count); }
                 while (ranNumListRight.Contains(ranNum));
                 ranNumListRight.Add(ranNum);
             }
         }
         for (int i = 0; i < 5; i++)
         {
-            flatItemListRight[ranNumListRight[i]].SetActive(true);
+            FlatItemListRight[ranNumListRight[i]].SetActive(true);
         }
         ranNumListRight = ranNumListRight.OrderBy(_ => Random.Range(0, int.MaxValue)).ToList();
     }
@@ -249,22 +249,22 @@ public class KeyGen_Cross : MonoBehaviour
                 case direction.front:
                     break;
                 case direction.left:
-                    objectDir = Quaternion.AngleAxis(itemAngle, flatItemListLeft[ranNumListLeft[0]].transform.up) * baseObjDir;
+                    objectDir = Quaternion.AngleAxis(itemAngle, FlatItemListLeft[ranNumListLeft[0]].transform.up) * baseObjDir;
                     break;
                 case direction.right:
-                    objectDir = Quaternion.AngleAxis(-itemAngle, flatItemListLeft[ranNumListLeft[0]].transform.up) * baseObjDir;
+                    objectDir = Quaternion.AngleAxis(-itemAngle, FlatItemListLeft[ranNumListLeft[0]].transform.up) * baseObjDir;
                     break;
                 case direction.up:
-                    objectDir = Quaternion.AngleAxis(itemAngle, flatItemListLeft[ranNumListLeft[0]].transform.right) * baseObjDir;
+                    objectDir = Quaternion.AngleAxis(itemAngle, FlatItemListLeft[ranNumListLeft[0]].transform.right) * baseObjDir;
                     break;
                 case direction.down:
-                    objectDir = Quaternion.AngleAxis(-itemAngle, flatItemListLeft[ranNumListLeft[0]].transform.right) * baseObjDir;
+                    objectDir = Quaternion.AngleAxis(-itemAngle, FlatItemListLeft[ranNumListLeft[0]].transform.right) * baseObjDir;
                     break;
                 default:
                     break;
             }
             Vector3 objectItemPos = objectDir * objectTVector + objectPosLeft;
-            flatItemListLeft[ranNumListLeft[i]].transform.SetPositionAndRotation(objectItemPos, objectDir);
+            FlatItemListLeft[ranNumListLeft[i]].transform.SetPositionAndRotation(objectItemPos, objectDir);
         }
     }
 
@@ -284,22 +284,22 @@ public class KeyGen_Cross : MonoBehaviour
                 case direction.front:
                     break;
                 case direction.left:
-                    objectDir = Quaternion.AngleAxis(itemAngle, flatItemListRight[ranNumListRight[0]].transform.up) * baseObjDir;
+                    objectDir = Quaternion.AngleAxis(itemAngle, FlatItemListRight[ranNumListRight[0]].transform.up) * baseObjDir;
                     break;
                 case direction.right:
-                    objectDir = Quaternion.AngleAxis(-itemAngle, flatItemListRight[ranNumListRight[0]].transform.up) * baseObjDir;
+                    objectDir = Quaternion.AngleAxis(-itemAngle, FlatItemListRight[ranNumListRight[0]].transform.up) * baseObjDir;
                     break;
                 case direction.up:
-                    objectDir = Quaternion.AngleAxis(itemAngle, flatItemListRight[ranNumListRight[0]].transform.right) * baseObjDir;
+                    objectDir = Quaternion.AngleAxis(itemAngle, FlatItemListRight[ranNumListRight[0]].transform.right) * baseObjDir;
                     break;
                 case direction.down:
-                    objectDir = Quaternion.AngleAxis(-itemAngle, flatItemListRight[ranNumListRight[0]].transform.right) * baseObjDir;
+                    objectDir = Quaternion.AngleAxis(-itemAngle, FlatItemListRight[ranNumListRight[0]].transform.right) * baseObjDir;
                     break;
                 default:
                     break;
             }
             Vector3 objectItemPos = objectDir * objectTVector + objectPosRight;
-            flatItemListRight[ranNumListRight[i]].transform.SetPositionAndRotation(objectItemPos, objectDir);
+            FlatItemListRight[ranNumListRight[i]].transform.SetPositionAndRotation(objectItemPos, objectDir);
         }
     }
 
@@ -321,7 +321,7 @@ public class KeyGen_Cross : MonoBehaviour
                     curDirectionLeft = direction.front;
                     for (int i = 0; i < ranNumListLeft.Count(); i++)
                     {
-                        flatItemListLeft[ranNumListLeft[i]].transform.RotateAround(objectPosLeft, flatItemListLeft[ranNumListLeft[0]].transform.up, itemAngle);
+                        FlatItemListLeft[ranNumListLeft[i]].transform.RotateAround(objectPosLeft, FlatItemListLeft[ranNumListLeft[0]].transform.up, itemAngle);
                     }
                 }
             }
@@ -332,7 +332,7 @@ public class KeyGen_Cross : MonoBehaviour
                     curDirectionLeft = direction.right;
                     for (int i = 0; i < ranNumListLeft.Count(); i++)
                     {
-                        flatItemListLeft[ranNumListLeft[i]].transform.RotateAround(objectPosLeft, flatItemListLeft[ranNumListLeft[0]].transform.up, itemAngle);
+                        FlatItemListLeft[ranNumListLeft[i]].transform.RotateAround(objectPosLeft, FlatItemListLeft[ranNumListLeft[0]].transform.up, itemAngle);
                     }
                 }
                 else if (desiredDirection == direction.up)
@@ -340,7 +340,7 @@ public class KeyGen_Cross : MonoBehaviour
                     curDirectionLeft = direction.up;
                     for (int i = 0; i < ranNumListLeft.Count(); i++)
                     {
-                        flatItemListLeft[ranNumListLeft[i]].transform.RotateAround(objectPosLeft, flatItemListLeft[ranNumListLeft[0]].transform.right, -itemAngle);
+                        FlatItemListLeft[ranNumListLeft[i]].transform.RotateAround(objectPosLeft, FlatItemListLeft[ranNumListLeft[0]].transform.right, -itemAngle);
                     }
                 }
                 else if (desiredDirection == direction.down)
@@ -348,7 +348,7 @@ public class KeyGen_Cross : MonoBehaviour
                     curDirectionLeft = direction.down;
                     for (int i = 0; i < ranNumListLeft.Count(); i++)
                     {
-                        flatItemListLeft[ranNumListLeft[i]].transform.RotateAround(objectPosLeft, flatItemListLeft[ranNumListLeft[0]].transform.right, itemAngle);
+                        FlatItemListLeft[ranNumListLeft[i]].transform.RotateAround(objectPosLeft, FlatItemListLeft[ranNumListLeft[0]].transform.right, itemAngle);
                     }
                 }
                 else if (desiredDirection == direction.left)
@@ -356,7 +356,7 @@ public class KeyGen_Cross : MonoBehaviour
                     curDirectionLeft = direction.left;
                     for (int i = 0; i < ranNumListLeft.Count(); i++)
                     {
-                        flatItemListLeft[ranNumListLeft[i]].transform.RotateAround(objectPosLeft, flatItemListLeft[ranNumListLeft[0]].transform.up, -itemAngle);
+                        FlatItemListLeft[ranNumListLeft[i]].transform.RotateAround(objectPosLeft, FlatItemListLeft[ranNumListLeft[0]].transform.up, -itemAngle);
                     }
                 }
             }
@@ -367,7 +367,7 @@ public class KeyGen_Cross : MonoBehaviour
                     curDirectionLeft = direction.front;
                     for (int i = 0; i < ranNumListLeft.Count(); i++)
                     {
-                        flatItemListLeft[ranNumListLeft[i]].transform.RotateAround(objectPosLeft, flatItemListLeft[ranNumListLeft[0]].transform.up, -itemAngle);
+                        FlatItemListLeft[ranNumListLeft[i]].transform.RotateAround(objectPosLeft, FlatItemListLeft[ranNumListLeft[0]].transform.up, -itemAngle);
                     }
                 }
             }
@@ -378,7 +378,7 @@ public class KeyGen_Cross : MonoBehaviour
                     curDirectionLeft = direction.front;
                     for (int i = 0; i < ranNumListLeft.Count(); i++)
                     {
-                        flatItemListLeft[ranNumListLeft[i]].transform.RotateAround(objectPosLeft, flatItemListLeft[ranNumListLeft[0]].transform.right, itemAngle);
+                        FlatItemListLeft[ranNumListLeft[i]].transform.RotateAround(objectPosLeft, FlatItemListLeft[ranNumListLeft[0]].transform.right, itemAngle);
                     }
                 }
             }
@@ -389,7 +389,7 @@ public class KeyGen_Cross : MonoBehaviour
                     curDirectionLeft = direction.front;
                     for (int i = 0; i < ranNumListLeft.Count(); i++)
                     {
-                        flatItemListLeft[ranNumListLeft[i]].transform.RotateAround(objectPosLeft, flatItemListLeft[ranNumListLeft[0]].transform.right, -itemAngle);
+                        FlatItemListLeft[ranNumListLeft[i]].transform.RotateAround(objectPosLeft, FlatItemListLeft[ranNumListLeft[0]].transform.right, -itemAngle);
                     }
                 }
             }
@@ -407,7 +407,7 @@ public class KeyGen_Cross : MonoBehaviour
                     curDirectionRight = direction.front;
                     for (int i = 0; i < ranNumListRight.Count(); i++)
                     {
-                        flatItemListRight[ranNumListRight[i]].transform.RotateAround(objectPosRight, flatItemListRight[ranNumListRight[0]].transform.up, itemAngle);
+                        FlatItemListRight[ranNumListRight[i]].transform.RotateAround(objectPosRight, FlatItemListRight[ranNumListRight[0]].transform.up, itemAngle);
                     }
                 }
             }
@@ -418,7 +418,7 @@ public class KeyGen_Cross : MonoBehaviour
                     curDirectionRight = direction.right;
                     for (int i = 0; i < ranNumListRight.Count(); i++)
                     {
-                        flatItemListRight[ranNumListRight[i]].transform.RotateAround(objectPosRight, flatItemListRight[ranNumListRight[0]].transform.up, itemAngle);
+                        FlatItemListRight[ranNumListRight[i]].transform.RotateAround(objectPosRight, FlatItemListRight[ranNumListRight[0]].transform.up, itemAngle);
                     }
                 }
                 else if (desiredDirection == direction.up)
@@ -426,7 +426,7 @@ public class KeyGen_Cross : MonoBehaviour
                     curDirectionRight = direction.up;
                     for (int i = 0; i < ranNumListRight.Count(); i++)
                     {
-                        flatItemListRight[ranNumListRight[i]].transform.RotateAround(objectPosRight, flatItemListRight[ranNumListRight[0]].transform.right, -itemAngle);
+                        FlatItemListRight[ranNumListRight[i]].transform.RotateAround(objectPosRight, FlatItemListRight[ranNumListRight[0]].transform.right, -itemAngle);
                     }
                 }
                 else if (desiredDirection == direction.down)
@@ -434,7 +434,7 @@ public class KeyGen_Cross : MonoBehaviour
                     curDirectionRight = direction.down;
                     for (int i = 0; i < ranNumListRight.Count(); i++)
                     {
-                        flatItemListRight[ranNumListRight[i]].transform.RotateAround(objectPosRight, flatItemListRight[ranNumListRight[0]].transform.right, itemAngle);
+                        FlatItemListRight[ranNumListRight[i]].transform.RotateAround(objectPosRight, FlatItemListRight[ranNumListRight[0]].transform.right, itemAngle);
                     }
                 }
                 else if (desiredDirection == direction.left)
@@ -442,7 +442,7 @@ public class KeyGen_Cross : MonoBehaviour
                     curDirectionRight = direction.left;
                     for (int i = 0; i < ranNumListRight.Count(); i++)
                     {
-                        flatItemListRight[ranNumListRight[i]].transform.RotateAround(objectPosRight, flatItemListRight[ranNumListRight[0]].transform.up, -itemAngle);
+                        FlatItemListRight[ranNumListRight[i]].transform.RotateAround(objectPosRight, FlatItemListRight[ranNumListRight[0]].transform.up, -itemAngle);
                     }
                 }
             }
@@ -453,7 +453,7 @@ public class KeyGen_Cross : MonoBehaviour
                     curDirectionRight = direction.front;
                     for (int i = 0; i < ranNumListRight.Count(); i++)
                     {
-                        flatItemListRight[ranNumListRight[i]].transform.RotateAround(objectPosRight, flatItemListRight[ranNumListRight[0]].transform.up, -itemAngle);
+                        FlatItemListRight[ranNumListRight[i]].transform.RotateAround(objectPosRight, FlatItemListRight[ranNumListRight[0]].transform.up, -itemAngle);
                     }
                 }
             }
@@ -464,7 +464,7 @@ public class KeyGen_Cross : MonoBehaviour
                     curDirectionRight = direction.front;
                     for (int i = 0; i < ranNumListRight.Count(); i++)
                     {
-                        flatItemListRight[ranNumListRight[i]].transform.RotateAround(objectPosRight, flatItemListRight[ranNumListRight[0]].transform.right, itemAngle);
+                        FlatItemListRight[ranNumListRight[i]].transform.RotateAround(objectPosRight, FlatItemListRight[ranNumListRight[0]].transform.right, itemAngle);
                     }
                 }
             }
@@ -475,7 +475,7 @@ public class KeyGen_Cross : MonoBehaviour
                     curDirectionRight = direction.front;
                     for (int i = 0; i < ranNumListRight.Count(); i++)
                     {
-                        flatItemListRight[ranNumListRight[i]].transform.RotateAround(objectPosRight, flatItemListRight[ranNumListRight[0]].transform.right, -itemAngle);
+                        FlatItemListRight[ranNumListRight[i]].transform.RotateAround(objectPosRight, FlatItemListRight[ranNumListRight[0]].transform.right, -itemAngle);
                     }
                 }
             }

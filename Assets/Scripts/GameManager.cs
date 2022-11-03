@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
+using System.Linq;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
     private GameObject Go;
+    public GameObject homeButton = null;
 
     private KeyGen_Cross KG = null;
     private Surroundings SR = null;
@@ -26,6 +28,9 @@ public class GameManager : MonoBehaviour
     {
         Instance = this;
         Go = GameObject.Find("HeadCollider");
+
+        homeButton.SetActive(false);
+
         if (SceneManager.GetActiveScene().name.Contains("Copy"))
         {
             KG = Go.GetComponent<KeyGen_Cross>();
@@ -72,7 +77,34 @@ public class GameManager : MonoBehaviour
 
             Time.timeScale = 0f;
             isGameOver = true;
-            // 게임오버
+
+            homeButton.SetActive(true);
+
+            if (SR != null)
+            {
+                foreach (var go in SR.LeftKeyObjects.SelectMany(x => x).ToList())
+                {
+                    go.SetActive(false);
+                }
+
+                foreach (var go in SR.RightKeyObjects.SelectMany(x => x).ToList())
+                {
+                    go.SetActive(false);
+                }
+            }
+
+            if (KG != null)
+            {
+                foreach (var go in KG.FlatItemListLeft)
+                {
+                    go.SetActive(false);
+                }
+
+                foreach (var go in KG.FlatItemListRight)
+                {
+                    go.SetActive(false);
+                }
+            }
         }
     }
 }
