@@ -17,14 +17,20 @@ public class StartSceneButton : MonoBehaviour
 
     private Quaternion lookDir;
 
-    private void Start()
+
+    private void Initialize()
     {
         _CrossButton = Instantiate(CrossButton);
         _FullButton = Instantiate(FullButton);
         SetNewPosRot();
     }
+
     private void Update()
     {
+        if (_CrossButton == null && _FullButton == null)
+        {
+            Initialize();
+        }
         if ((SteamVR_Input.GetStateDown("StickClick", SteamVR_Input_Sources.LeftHand) && SteamVR_Input.GetState("StickClick", SteamVR_Input_Sources.RightHand)) ||
             (SteamVR_Input.GetState("StickClick", SteamVR_Input_Sources.LeftHand) && SteamVR_Input.GetStateDown("StickClick", SteamVR_Input_Sources.RightHand)))
         {

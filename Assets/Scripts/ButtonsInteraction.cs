@@ -19,12 +19,14 @@ public class ButtonsInteraction : MonoBehaviour
         {
             //Debug.Log("PadKey interacted");
             _HC.GetComponent<Surroundings>().enabled = true;
+            _HC.GetComponent<StartSceneButton>().enabled = false;
             SceneManager.LoadScene("SY");
         }
         else if (this.gameObject.name.Contains("PlusKey"))
         {
             //Debug.Log("PlusKey interacted");
             _HC.GetComponent<KeyGen_Cross>().enabled = true;
+            _HC.GetComponent<StartSceneButton>().enabled = false;
             SceneManager.LoadScene("SY_Copy");
         }
         else if (this.gameObject.name.Contains("SceneStartButton"))
@@ -33,16 +35,20 @@ public class ButtonsInteraction : MonoBehaviour
             {
                 _HC.GetComponent<KeyGen_Cross>().OnStartButtonClicked();
             }
-            else if (SceneManager.GetActiveScene().name == "SY")
+            else if (SceneManager.GetActiveScene().name.Equals("SY"))
             {
                 _HC.GetComponent<Surroundings>().OnStartButtonClicked();
             }
             SoundManager.Instance.PlaySFXSound("BoxingBell1");
             Destroy(this.gameObject);
         }
-        else if (this.gameObject.name.Contains("SceneHomeButton"))
+        else if (this.gameObject.name.Contains("HomeKey"))
         {
-            //SceneManager.LoadScene("StartScene")
+            GameManager.Instance.homeButton.SetActive(false);
+            _HC.GetComponent<StartSceneButton>().enabled = true;
+            _HC.GetComponent<KeyGen_Cross>().enabled = false;
+            _HC.GetComponent<Surroundings>().enabled = false;
+            SceneManager.LoadScene("StartScene");
         }
         else
         {

@@ -59,12 +59,18 @@ public class InputManager : MonoBehaviour
         }
         else
         {
+            Initialize();
             Destroy(this.gameObject);
         }
         Instance = this;
     }
 
     private void Start()
+    {
+        Initialize();
+    }
+
+    private void Initialize()
     {
         wordData = CSVReader.Read("wordLen");
 
@@ -73,7 +79,7 @@ public class InputManager : MonoBehaviour
         UpdateTargetWord();
         DebugNextKey();
 
-        TextField = "Ű�� ��������.";
+        TextField = "Enter.";
     }
 
     void DebugNextKey()
@@ -247,7 +253,6 @@ public class InputManager : MonoBehaviour
     {
         if (mAutomateKR.ingWord == null && (mAutomateKR.completeText == "" || mAutomateKR.completeText == null))
         {
-            Debug.Log("1!");
             targetTextField.text = targetWord;
             check = true;
             idx = 0;
@@ -256,7 +261,6 @@ public class InputManager : MonoBehaviour
             return;
         }
 
-        Debug.Log("2!");
         string targetCharArray = KeySequence(targetWord).ArrayToString().Trim();
         string curTextCharArray = KeySequence(TextField).ArrayToString().Trim();
         int tmp = 0;

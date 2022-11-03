@@ -9,22 +9,24 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
+    private const float value = 10f;
+
     private GameObject Go;
     public GameObject homeButton = null;
 
     private KeyGen_Cross KG = null;
     private Surroundings SR = null;
 
-    private bool isGameOver = false;
+    public bool IsGameOver { get; set; } = false;
 
     public int Score { get; set; }
 
     public TextMeshProUGUI timerText = null;
 
-    private float timer = 10;
+    public float Timer { get; set; } = value;
 
     // Start is called before the first frame update
-    private void Awake()
+    private void Start()
     {
         if (Instance == null)
         {
@@ -48,15 +50,11 @@ public class GameManager : MonoBehaviour
             SR = Go.GetComponent<Surroundings>();
         }
     }
-    private void OnDestroy()
-    {
-        Instance = null;
-    }
 
     // Update is called once per frame
     private void Update()
     {
-        if (isGameOver)
+        if (IsGameOver)
         {
             return;
         }
@@ -74,17 +72,18 @@ public class GameManager : MonoBehaviour
                 return;
             }
         }
-        timer -= Time.deltaTime;
+        Timer -= Time.deltaTime;
 
-        timerText.text = timer.ToString("F2");
+        timerText.text = Timer.ToString("F2");
 
-        if (timer < 0f)
+        if (Timer <= 0f)
         {
             timerText.text = "0.00";
             SoundManager.Instance.PlaySFXSound("BoxingBell3");
 
-            Time.timeScale = 0f;
-            isGameOver = true;
+            Debug.Log("Hi!");
+
+            IsGameOver = true;
 
             homeButton.SetActive(true);
 

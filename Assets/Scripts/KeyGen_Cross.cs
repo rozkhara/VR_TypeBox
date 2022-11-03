@@ -69,6 +69,8 @@ public class KeyGen_Cross : MonoBehaviour
                 rightKeyObjects[i].Add(go);
             }
         }
+        isKeyInstantiatedLeft = false;
+        isKeyInstantiatedRight = false;
     }
 
     public void OnStartButtonClicked()
@@ -97,7 +99,8 @@ public class KeyGen_Cross : MonoBehaviour
             DirectionReset();
         }
 
-        if (SteamVR_Input.GetStateDown("LowerButtonLeft", SteamVR_Input_Sources.LeftHand)){
+        if (SteamVR_Input.GetStateDown("LowerButtonLeft", SteamVR_Input_Sources.LeftHand))
+        {
             InputManager.Instance.KeyDownHangul('B');
             SetNewPosRot(false);
         }
