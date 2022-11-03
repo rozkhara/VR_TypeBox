@@ -10,11 +10,10 @@ public class KeyGen_Cross : MonoBehaviour
     private readonly string[] leftkeyName = new string[4] { "QWERT", "qwert", "asdfg", "zxcv" };
     private readonly string[] rightkeyName = new string[4] { "OP", "yuiop", "hjkl", "bnm" };
     private const float distance = 0.7f;
-    private const float angleVertical = 13f;
     private const float angleHorizontal = 13f;
     private const float itemAngle = -45f;
     private InputManager IM = null;
-
+    private bool isStarted = false;
     private GameObject go;
     private Quaternion lookDir;
     private List<List<GameObject>> leftKeyObjects = null;
@@ -78,10 +77,21 @@ public class KeyGen_Cross : MonoBehaviour
                 rightKeyObjects[i].Add(go);
             }
         }
-        DirectionReset();
     }
+
+    public void OnStartButtonClicked()
+    {
+        DirectionReset();
+        isStarted = true;
+    }
+
+
     private void Update()
     {
+        if (!isStarted)
+        {
+            return;
+        }
         if ((SteamVR_Input.GetStateDown("StickClick", SteamVR_Input_Sources.LeftHand) && SteamVR_Input.GetState("StickClick", SteamVR_Input_Sources.RightHand)) ||
             (SteamVR_Input.GetState("StickClick", SteamVR_Input_Sources.LeftHand) && SteamVR_Input.GetStateDown("StickClick", SteamVR_Input_Sources.RightHand)))
         {

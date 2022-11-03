@@ -8,15 +8,23 @@ public class ButtonsInteraction : MonoBehaviour
 {
     private void OnHandHoverBegin()
     {
-        if (this.gameObject.name == "PadKey(Clone)")
+        if (this.gameObject.name.Contains("PadKey"))
         {
             Debug.Log("PadKey interacted");
             //SceneManager.LoadScene("SY");
         }
-        else if(this.gameObject.name == "PlusKey(Clone)")
+        else if (this.gameObject.name.Contains("PlusKey"))
         {
             Debug.Log("PlusKey interacted");
             //SceneManager.LoadScene("SY_Copy");
+        }
+        else if (this.gameObject.name.Contains("SceneStartButton"))
+        {
+            if (SceneManager.GetActiveScene().name.Contains("Copy"))
+            {
+                GameObject.Find("HeadCollider").GetComponent<KeyGen_Cross>().OnStartButtonClicked();
+                Destroy(this.gameObject);
+            }
         }
         else
         {

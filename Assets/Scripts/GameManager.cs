@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using TMPro;
 
 public class GameManager : MonoBehaviour
@@ -17,8 +18,11 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+        if (SceneManager.GetActiveScene().name.Contains("Copy"))
+        {
+            GameObject.Find("HeadCollider").GetComponent<KeyGen_Cross>().OnStartButtonClicked();
+        }
     }
-
     private void OnDestroy()
     {
         Instance = null;
