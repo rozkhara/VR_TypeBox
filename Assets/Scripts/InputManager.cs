@@ -14,6 +14,8 @@ public class InputManager : MonoBehaviour
     public TextMeshProUGUI inputTextField = null;
     List<Dictionary<string, object>> wordData;
 
+    public TextMeshProUGUI ScoreText = null;
+
     string targetWord = null;
     char[] targetKeySeq = new char[15];
     char[] inputKeySeq = new char[15];
@@ -236,6 +238,8 @@ public class InputManager : MonoBehaviour
         if (TextField == originWord)
         {
             UpdateTargetWord();
+            GameManager.Instance.Score++;
+            ScoreText.text = "Score : " + GameManager.Instance.Score.ToString();
         }
         Clear();
     }
