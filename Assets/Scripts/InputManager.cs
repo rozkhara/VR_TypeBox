@@ -107,7 +107,7 @@ public class InputManager : MonoBehaviour
             {
                 if (bCheck && mAutomateKR.ingWord == null && mAutomateKR.completeText != null && mAutomateKR.completeText != "")
                 {
-                    if (mAutomateKR.completeText != completeText && wordIdx > 0)
+                    if (tmp && mAutomateKR.completeText != completeText && wordIdx > 0)
                     {
                         completeText = mAutomateKR.completeText;
                         wordIdx--;
