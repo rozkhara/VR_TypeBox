@@ -99,7 +99,7 @@ public class Surroundings : MonoBehaviour
 
     }
 
-    private void SetNewPosRot()
+    public void SetNewPosRot()
     {
         DirectionReset();
         Vector3 position = this.gameObject.transform.position;

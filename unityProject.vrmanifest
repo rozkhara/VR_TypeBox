@@ -5,7 +5,7 @@
       "app_key": "application.generated.unity.vr_typebox.exe",
       "launch_type": "url",
       "url": "steam://launch/",
-      "action_manifest_path": "D:\\UnityProjects\\VR_TypeBox\\Assets\\StreamingAssets\\SteamVR\\actions.json",
+      "action_manifest_path": "C:\\Users\\S.R.Kim\\Documents\\VR_TypeBox\\Assets\\StreamingAssets\\SteamVR\\actions.json",
       "strings": {
         "en_us": {
           "name": "VR_TypeBox [Testing]"
