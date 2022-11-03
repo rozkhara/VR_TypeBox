@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class InputManager : MonoBehaviour
 {
+    public static InputManager Instance { get; private set; }
+
+
     AutomateKR mAutomateKR = new AutomateKR();
     string st = AutomateKR.SOUND_TABLE;
     int[,] mv = AutomateKR.MIXED_VOWEL;
@@ -49,6 +52,16 @@ public class InputManager : MonoBehaviour
     {
         KeyInteract._Keybord = this;
         KeyInteractAlt._Keybord = this;
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(this.gameObject);
+        }
+        else
+        {
+            Destroy(this.gameObject);
+        }
+        Instance = this;
     }
 
     private void Start()

@@ -11,7 +11,6 @@ public class Surroundings : MonoBehaviour
     private const float distance = 0.7f;
     private const float angleVertical = 13f;
     private const float angleHorizontal = 13f;
-    private InputManager IM = null;
 
     public bool isStarted = false;
 
@@ -22,13 +21,7 @@ public class Surroundings : MonoBehaviour
 
     [SerializeField] private GameObject keyObject;
 
-    private void Awake()
-    {
-        if (IM == null)
-        {
-            IM = GameObject.Find("InputManager").GetComponent<InputManager>();
-        }
-    }
+
 
     public void OnStartButtonClicked()
     {
@@ -89,12 +82,11 @@ public class Surroundings : MonoBehaviour
         }
         if (SteamVR_Input.GetStateDown("LowerButtonLeft", SteamVR_Input_Sources.LeftHand))
         {
-            IM.KeyDownHangul('B');
+            InputManager.Instance.KeyDownHangul('B');
         }
         if (SteamVR_Input.GetStateDown("LowerButtonRight", SteamVR_Input_Sources.RightHand))
         {
-            IM.KeyDownHangul('C');
-
+            InputManager.Instance.KeyDownHangul('C');
         }
 
     }

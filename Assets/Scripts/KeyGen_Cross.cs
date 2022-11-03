@@ -12,7 +12,6 @@ public class KeyGen_Cross : MonoBehaviour
     private const float distance = 0.7f;
     private const float angleHorizontal = 13f;
     private const float itemAngle = -45f;
-    private InputManager IM = null;
     public bool isStarted = false;
     private GameObject go;
     private Quaternion lookDir;
@@ -32,14 +31,7 @@ public class KeyGen_Cross : MonoBehaviour
     [SerializeField] private GameObject keyObject;
 
 
-    private void Awake()
-    {
-        if (IM == null)
-        {
-            IM = GameObject.Find("InputManager").GetComponent<InputManager>();
-        }
-    }
-    private void Start()
+    private void Initialize()
     {
         leftKeyObjects = new();
         rightKeyObjects = new();
@@ -81,6 +73,7 @@ public class KeyGen_Cross : MonoBehaviour
 
     public void OnStartButtonClicked()
     {
+        Initialize();
         DirectionReset();
         isStarted = true;
     }
@@ -105,12 +98,12 @@ public class KeyGen_Cross : MonoBehaviour
         }
 
         if (SteamVR_Input.GetStateDown("LowerButtonLeft", SteamVR_Input_Sources.LeftHand)){
-            IM.KeyDownHangul('B');
+            InputManager.Instance.KeyDownHangul('B');
             SetNewPosRot(false);
         }
         if (SteamVR_Input.GetStateDown("LowerButtonRight", SteamVR_Input_Sources.RightHand))
         {
-            IM.KeyDownHangul('C');
+            InputManager.Instance.KeyDownHangul('C');
             SetNewPosRot(false);
         }
         GetDPadInputLeft();
@@ -155,7 +148,7 @@ public class KeyGen_Cross : MonoBehaviour
             ranNumListLeft = new List<int>();
             isKeyInstantiatedLeft = true;
         }
-        char targetKey = IM.GetNextKey();
+        char targetKey = InputManager.Instance.GetNextKey();
         GameObject go = flatItemListLeft.Where(x => x.name == targetKey.ToString()).SingleOrDefault();
         int keyNum = flatItemListLeft.IndexOf(go);
         if (keyNum != -1)
@@ -202,7 +195,7 @@ public class KeyGen_Cross : MonoBehaviour
             ranNumListRight = new List<int>();
             isKeyInstantiatedRight = true;
         }
-        char targetKey = IM.GetNextKey();
+        char targetKey = InputManager.Instance.GetNextKey();
         GameObject go = flatItemListRight.Where(x => x.name == targetKey.ToString()).SingleOrDefault();
         int keyNum = flatItemListRight.IndexOf(go);
         if (keyNum != -1)

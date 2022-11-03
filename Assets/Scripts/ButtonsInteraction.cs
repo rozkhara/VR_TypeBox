@@ -8,7 +8,7 @@ public class ButtonsInteraction : MonoBehaviour
 {
     private GameObject _HC;
 
-    private void Awake()
+    private void Start()
     {
         _HC = GameObject.Find("HeadCollider");
     }
@@ -17,19 +17,19 @@ public class ButtonsInteraction : MonoBehaviour
     {
         if (this.gameObject.name.Contains("PadKey"))
         {
-            Debug.Log("PadKey interacted");
+            //Debug.Log("PadKey interacted");
             _HC.GetComponent<Surroundings>().enabled = true;
-            //SceneManager.LoadScene("SY");
+            SceneManager.LoadScene("SY");
         }
         else if (this.gameObject.name.Contains("PlusKey"))
         {
-            Debug.Log("PlusKey interacted");
+            //Debug.Log("PlusKey interacted");
             _HC.GetComponent<KeyGen_Cross>().enabled = true;
-            //SceneManager.LoadScene("SY_Copy");
+            SceneManager.LoadScene("SY_Copy");
         }
         else if (this.gameObject.name.Contains("SceneStartButton"))
         {
-            if (SceneManager.GetActiveScene().name.Contains("Copy"))
+            if (SceneManager.GetActiveScene().name.Equals("SY_Copy"))
             {
                 _HC.GetComponent<KeyGen_Cross>().OnStartButtonClicked();
             }

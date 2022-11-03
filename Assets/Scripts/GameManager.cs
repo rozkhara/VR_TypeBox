@@ -24,7 +24,15 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     private void Awake()
     {
-        Instance = this;
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(this.gameObject);
+        }
+        else
+        {
+            Destroy(this.gameObject);
+        }
         Go = GameObject.Find("HeadCollider");
         if (SceneManager.GetActiveScene().name.Contains("Copy"))
         {
