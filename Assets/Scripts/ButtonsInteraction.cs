@@ -23,6 +23,7 @@ public class ButtonsInteraction : MonoBehaviour
             if (SceneManager.GetActiveScene().name.Contains("Copy"))
             {
                 GameObject.Find("HeadCollider").GetComponent<KeyGen_Cross>().OnStartButtonClicked();
+                Managers.SoundManager.Instance.PlaySFXSound("BoxingBell1");
                 Destroy(this.gameObject);
             }
         }

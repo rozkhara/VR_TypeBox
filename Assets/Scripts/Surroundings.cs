@@ -13,6 +13,8 @@ public class Surroundings : MonoBehaviour
     private const float angleHorizontal = 13f;
     private InputManager IM = null;
 
+    public bool isStarted = false;
+
     private GameObject go;
     private Quaternion lookDir;
     private List<List<GameObject>> leftKeyObjects = null;
@@ -27,6 +29,13 @@ public class Surroundings : MonoBehaviour
             IM = GameObject.Find("InputManager").GetComponent<InputManager>();
         }
     }
+
+    public void OnStartButtonClicked()
+    {
+        SetNewPosRot();
+        isStarted = true;
+    }
+
     private void Start()
     {
         leftKeyObjects = new();
@@ -67,7 +76,10 @@ public class Surroundings : MonoBehaviour
     }
     private void Update()
     {
-
+        if (!isStarted)
+        {
+            return;
+        }
         if ((SteamVR_Input.GetStateDown("StickClick", SteamVR_Input_Sources.LeftHand) && SteamVR_Input.GetState("StickClick", SteamVR_Input_Sources.RightHand)) ||
             (SteamVR_Input.GetState("StickClick", SteamVR_Input_Sources.LeftHand) && SteamVR_Input.GetStateDown("StickClick", SteamVR_Input_Sources.RightHand)))
         {

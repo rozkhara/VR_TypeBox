@@ -440,6 +440,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 766982f7d54c0b94d88278e5c64aaa63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isStarted: 0
   keyObject: {fileID: 3167428848812542392, guid: 16f3f60fe0703434ba8e88a1aebbac21, type: 3}
 --- !u!114 &640696038
 MonoBehaviour:
@@ -453,6 +454,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 371515a00f69ac5459366971770d5fd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isStarted: 0
   keyObject: {fileID: 3167428848812542392, guid: 49189b86dd97b5142a5d16237cf43f7e, type: 3}
 --- !u!1 &705507993
 GameObject:
@@ -1572,6 +1574,8 @@ MonoBehaviour:
   mainBgmAudioClip: {fileID: 0}
   sfxAudioClips:
   - {fileID: 8300000, guid: 92e71ae25ae50e64bb92dde0a253e3aa, type: 3}
+  - {fileID: 8300000, guid: 5435b356548b4fb408a21c250823b6f9, type: 3}
+  - {fileID: 8300000, guid: 4727f9607bb87f0429324d27c5943cc6, type: 3}
 --- !u!4 &1607740615
 Transform:
   m_ObjectHideFlags: 0

@@ -13,7 +13,7 @@ public class KeyGen_Cross : MonoBehaviour
     private const float angleHorizontal = 13f;
     private const float itemAngle = -45f;
     private InputManager IM = null;
-    private bool isStarted = false;
+    public bool isStarted = false;
     private GameObject go;
     private Quaternion lookDir;
     private List<List<GameObject>> leftKeyObjects = null;
