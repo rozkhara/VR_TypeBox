@@ -97,44 +97,26 @@ public class InputManager : MonoBehaviour
             DeleteInput();
 
             SetCheck();
-            
+
             if (check)
             {
-                if (mAutomateKR.ingWord == null)
+                if (mAutomateKR.ingWord == null && mAutomateKR.completeText != null && mAutomateKR.completeText != "")
                 {
                     string completeString = KeySequence(mAutomateKR.completeText[wordIdx].ToString()).ArrayToString().Trim();
                     idx -= completeString.Length;
                 }
-                else
+                else if (mAutomateKR.ingWord != null) idx--;
+
+                targetTextField.text = targetWord;
+                if (mAutomateKR.completeText != completeText && wordIdx > 0)
                 {
-                    string ingString = KeySequence(mAutomateKR.ingWord).ArrayToString().Trim();
-                    string curTargetString = KeySequence(mAutomateKR.completeText[wordIdx].ToString()).ArrayToString().Trim();
-                    int curIdx = 0;
-                    bool key = false;
-
-                    foreach (var ingChar in ingString)
-                    {
-                        if (ingChar == curTargetString[curIdx]) curIdx++;
-                        else
-                        {
-                            key = true;
-                            break;
-                        }
-                    }
-
-                    if (!key)
-                    {
-                        targetTextField.text = targetWord;
-                        check = true;
-                    }
-                    idx--;
+                    completeText = mAutomateKR.completeText;
+                    wordIdx--;
                 }
-
-                if (mAutomateKR.completeText != completeText && wordIdx > 0) wordIdx--;
             }
 
+
             return;
-            
         }
 
         if (_key == 'C') // ���߿� �׳� �ܾ� �ϼ��Ǹ� �ڵ����� �Ѿ�� ����?
@@ -150,8 +132,6 @@ public class InputManager : MonoBehaviour
 
         Debug.Log("IDX : " + idx);
         Debug.Log("Word IDX : " + wordIdx);
-
-        SetCheck();
 
         string targetCharArray = KeySequence(targetWord).ArrayToString().Trim();
         string curTextCharArray = KeySequence(TextField).ArrayToString().Trim();
@@ -215,6 +195,8 @@ public class InputManager : MonoBehaviour
             completeText = mAutomateKR.completeText;
         }
 
+        SetCheck();
+
         Debug.Log("CHECK : " + check);
 
         Debug.Log(targetCharArray[idx]);
@@ -228,25 +210,25 @@ public class InputManager : MonoBehaviour
             check = true;
             idx = 0;
             wordIdx = 0;
+
             return;
         }
 
         string targetCharArray = KeySequence(targetWord).ArrayToString().Trim();
         string curTextCharArray = KeySequence(TextField).ArrayToString().Trim();
         int tmp = 0;
-        bool bCheck = false;
 
         foreach (var curTextChar in curTextCharArray)
         {
-            if (curTextChar != targetCharArray[tmp])
+            if (curTextChar == targetCharArray[tmp]) tmp++;
+            else
             {
-                bCheck = true;
-                break;
+                check = false;
+                return;
             }
-            else if (curTextChar == targetCharArray[tmp]) tmp++;
         }
 
-        if (!bCheck) check = true;
+        check = true;
     }
 
     void UpdateTargetWord()
