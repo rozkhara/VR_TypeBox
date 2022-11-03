@@ -95,6 +95,44 @@ public class InputManager : MonoBehaviour
         if (_key == 'B')
         {
             DeleteInput();
+
+            SetCheck();
+
+            if (check)
+            {
+                if (mAutomateKR.ingWord == null)
+                {
+                    string completeString = KeySequence(mAutomateKR.completeText[wordIdx].ToString()).ArrayToString().Trim();
+                    idx -= completeString.Length;
+                }
+                else
+                {
+                    string ingString = KeySequence(mAutomateKR.ingWord).ArrayToString().Trim();
+                    string curTargetString = KeySequence(mAutomateKR.completeText[wordIdx].ToString()).ArrayToString().Trim();
+                    int curIdx = 0;
+                    bool key = false;
+
+                    foreach (var ingChar in ingString)
+                    {
+                        if (ingChar == curTargetString[curIdx]) curIdx++;
+                        else
+                        {
+                            key = true;
+                            break;
+                        }
+                    }
+
+                    if (!key)
+                    {
+                        targetTextField.text = targetWord;
+                        check = true;
+                    }
+                    idx--;
+                }
+
+                if (mAutomateKR.completeText != completeText && wordIdx > 0) wordIdx--;
+            }
+
             return;
         }
 
@@ -111,31 +149,10 @@ public class InputManager : MonoBehaviour
         Debug.Log("IDX : " + idx);
         Debug.Log("Word IDX : " + wordIdx);
 
-        if (mAutomateKR.ingWord == null && (mAutomateKR.completeText == "" || mAutomateKR.completeText == null))
-        {
-            targetTextField.text = targetWord;
-            check = true;
-            idx = 0;
-            wordIdx = 0;
-            return;
-        }    
+        SetCheck();
 
         string targetCharArray = KeySequence(targetWord).ArrayToString().Trim();
         string curTextCharArray = KeySequence(TextField).ArrayToString().Trim();
-        int tmp = 0;
-        bool bCheck = false;
-
-        foreach (var curTextChar in curTextCharArray)
-        {
-            if (curTextChar != targetCharArray[tmp])
-            {
-                bCheck = true;
-                break;
-            }
-            else if (curTextChar == targetCharArray[tmp]) tmp++;
-        }
-
-        if (!bCheck) check = true;
 
         if (check && _key == 'B')
         {
@@ -197,6 +214,35 @@ public class InputManager : MonoBehaviour
         Debug.Log("CHECK : " + check);
 
         Debug.Log(targetCharArray[idx]);
+    }
+
+    private void SetCheck()
+    {
+        if (mAutomateKR.ingWord == null && (mAutomateKR.completeText == "" || mAutomateKR.completeText == null))
+        {
+            targetTextField.text = targetWord;
+            check = true;
+            idx = 0;
+            wordIdx = 0;
+            return;
+        }
+
+        string targetCharArray = KeySequence(targetWord).ArrayToString().Trim();
+        string curTextCharArray = KeySequence(TextField).ArrayToString().Trim();
+        int tmp = 0;
+        bool bCheck = false;
+
+        foreach (var curTextChar in curTextCharArray)
+        {
+            if (curTextChar != targetCharArray[tmp])
+            {
+                bCheck = true;
+                break;
+            }
+            else if (curTextChar == targetCharArray[tmp]) tmp++;
+        }
+
+        if (!bCheck) check = true;
     }
 
     void UpdateTargetWord()
