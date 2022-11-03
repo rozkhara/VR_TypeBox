@@ -97,7 +97,7 @@ public class InputManager : MonoBehaviour
             DeleteInput();
 
             SetCheck();
-
+            
             if (check)
             {
                 if (mAutomateKR.ingWord == null)
@@ -134,11 +134,13 @@ public class InputManager : MonoBehaviour
             }
 
             return;
+            
         }
 
         if (_key == 'C') // ���߿� �׳� �ܾ� �ϼ��Ǹ� �ڵ����� �Ѿ�� ����?
         {
             CheckInput(targetWord);
+            SetCheck();
             return;
         }
 
@@ -154,6 +156,7 @@ public class InputManager : MonoBehaviour
         string targetCharArray = KeySequence(targetWord).ArrayToString().Trim();
         string curTextCharArray = KeySequence(TextField).ArrayToString().Trim();
 
+        /*
         if (check && _key == 'B')
         {
             if (mAutomateKR.ingWord == null)
@@ -190,6 +193,7 @@ public class InputManager : MonoBehaviour
 
             return;
         }
+        */
 
         if (check && _key != targetCharArray[idx])
         {

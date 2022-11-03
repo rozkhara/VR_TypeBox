@@ -7,10 +7,11 @@ using TMPro;
 public class Surroundings : MonoBehaviour
 {
     private readonly string[] leftkeyName = new string[4] { "QWERT", "qwert", "asdfg", "zxcv" };
-    private readonly string[] rightkeyName = new string[4] { "BSCOP", "yuiop", "hjkl", "bnm" };
+    private readonly string[] rightkeyName = new string[4] { "OP", "yuiop", "hjkl", "bnm" };
     private const float distance = 0.7f;
     private const float angleVertical = 13f;
     private const float angleHorizontal = 13f;
+    private InputManager IM = null;
 
     private GameObject go;
     private Quaternion lookDir;
@@ -19,6 +20,13 @@ public class Surroundings : MonoBehaviour
 
     [SerializeField] private GameObject keyObject;
 
+    private void Awake()
+    {
+        if (IM == null)
+        {
+            IM = GameObject.Find("InputManager").GetComponent<InputManager>();
+        }
+    }
     private void Start()
     {
         leftKeyObjects = new();
@@ -65,6 +73,15 @@ public class Surroundings : MonoBehaviour
         {
             //Debug.Log("Both Buttons Pressed");
             SetNewPosRot();
+        }
+        if (SteamVR_Input.GetStateDown("LowerButtonLeft", SteamVR_Input_Sources.LeftHand))
+        {
+            IM.KeyDownHangul('B');
+        }
+        if (SteamVR_Input.GetStateDown("LowerButtonRight", SteamVR_Input_Sources.RightHand))
+        {
+            IM.KeyDownHangul('C');
+
         }
 
     }

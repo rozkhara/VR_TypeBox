@@ -12,7 +12,7 @@ public class KeyGen_Cross : MonoBehaviour
     private const float distance = 0.7f;
     private const float angleVertical = 13f;
     private const float angleHorizontal = 13f;
-    private const float itemAngle = 45f;
+    private const float itemAngle = -45f;
     private InputManager IM = null;
 
     private GameObject go;
@@ -96,6 +96,7 @@ public class KeyGen_Cross : MonoBehaviour
 
         if (SteamVR_Input.GetStateDown("LowerButtonLeft", SteamVR_Input_Sources.LeftHand)){
             IM.KeyDownHangul('B');
+            SetNewPosRot(false);
         }
         if (SteamVR_Input.GetStateDown("LowerButtonRight", SteamVR_Input_Sources.RightHand))
         {
