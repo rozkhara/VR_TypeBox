@@ -175,6 +175,13 @@ public class InputManager : MonoBehaviour
         }
         */
 
+        if (check && mAutomateKR.completeText != completeText)
+        {
+            if (wordIdx < targetWord.Length - 1) wordIdx++;
+
+            completeText = mAutomateKR.completeText;
+        }
+
         if (check && _key != targetCharArray[idx])
         {
             if (targetWord.Length == 1) targetTextField.text = "<color=red>" + targetWord + "</color>";
@@ -186,13 +193,6 @@ public class InputManager : MonoBehaviour
         if (check && _key == targetCharArray[idx])
         {
             idx++;
-        }
-
-        if (check && mAutomateKR.completeText != completeText)
-        {
-            if (wordIdx < targetWord.Length - 1) wordIdx++;
-
-            completeText = mAutomateKR.completeText;
         }
 
         SetCheck();
