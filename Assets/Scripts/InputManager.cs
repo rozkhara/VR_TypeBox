@@ -23,6 +23,7 @@ public class InputManager : MonoBehaviour
     int idx = 0;
     int wordIdx = 0;
     string completeText = null;
+    bool preCheck = true;
     bool check = true;
 
     public string TextField
@@ -99,6 +100,8 @@ public class InputManager : MonoBehaviour
 
             if (mAutomateKR.ingWord == null) bCheck = true;
 
+            SetPreCheck();
+
             DeleteInput();
 
             SetCheck();
@@ -116,7 +119,7 @@ public class InputManager : MonoBehaviour
                     string completeString = KeySequence(mAutomateKR.completeText[wordIdx].ToString()).ArrayToString().Trim();
                     idx -= completeString.Length;
                 }
-                else if (!bCheck) idx--;
+                else if (!bCheck && preCheck) idx--;
 
                 targetTextField.text = targetWord;
             }
@@ -128,6 +131,7 @@ public class InputManager : MonoBehaviour
         {
             CheckInput(targetWord);
             SetCheck();
+            completeText = "";
             return;
         }
 
@@ -177,8 +181,6 @@ public class InputManager : MonoBehaviour
         }
         */
 
-        SetCheck();
-
         if (check && mAutomateKR.completeText != completeText)
         {
             if (wordIdx < targetWord.Length - 1) wordIdx++;
@@ -199,11 +201,40 @@ public class InputManager : MonoBehaviour
             idx++;
         }
     }
+    private void SetPreCheck()
+    {
+        if (mAutomateKR.ingWord == null && (mAutomateKR.completeText == "" || mAutomateKR.completeText == null))
+        {
+            targetTextField.text = targetWord;
+            preCheck = true;
+            idx = 0;
+            wordIdx = 0;
+
+            return;
+        }
+
+        string targetCharArray = KeySequence(targetWord).ArrayToString().Trim();
+        string curTextCharArray = KeySequence(TextField).ArrayToString().Trim();
+        int tmp = 0;
+
+        foreach (var curTextChar in curTextCharArray)
+        {
+            if (curTextChar == targetCharArray[tmp]) tmp++;
+            else
+            {
+                preCheck = false;
+                return;
+            }
+        }
+
+        preCheck = true;
+    }
 
     private void SetCheck()
     {
         if (mAutomateKR.ingWord == null && (mAutomateKR.completeText == "" || mAutomateKR.completeText == null))
         {
+            Debug.Log("1!");
             targetTextField.text = targetWord;
             check = true;
             idx = 0;
@@ -212,6 +243,7 @@ public class InputManager : MonoBehaviour
             return;
         }
 
+        Debug.Log("2!");
         string targetCharArray = KeySequence(targetWord).ArrayToString().Trim();
         string curTextCharArray = KeySequence(TextField).ArrayToString().Trim();
         int tmp = 0;

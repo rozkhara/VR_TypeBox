@@ -10,13 +10,11 @@ public class KeyInteract : MonoBehaviour
     static public InputManager _Keybord = null;
     private Interactable interactable;
     public TextMeshPro keyName = null;
-    private KeyGen_Cross KG = null;
 
     GameObject go;
 
     private void Awake()
     {
-        KG = GameObject.Find("HeadCollider").GetComponent<KeyGen_Cross>();
     }
     private void Start()
     {
@@ -35,7 +33,6 @@ public class KeyInteract : MonoBehaviour
         if (_Keybord != null)
         {
             _Keybord.KeyDownHangul(this.name[0]);
-            KG.SetNewPosRot(false);
         }
     }
 }
