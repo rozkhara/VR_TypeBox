@@ -288,7 +288,8 @@ public class InputManager : MonoBehaviour
         if (TextField == originWord)
         {
             UpdateTargetWord();
-            GameManager.Instance.Score++;
+            GameManager.Instance.Score += TextField.Length;
+            // GameManager.Instance.Score++;
             ScoreText.text = "Score : " + GameManager.Instance.Score.ToString();
         }
         Clear();

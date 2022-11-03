@@ -33,7 +33,8 @@ public class KeyInteract : MonoBehaviour
     {
         //Debug.Log("Key name : " + this.name); 
         if (_Keybord != null)
-        {
+        { 
+            ParticleManager.Instance.PlayParticle("Hit_VFX", this.gameObject.transform.GetChild(0).transform.position);
             _Keybord.KeyDownHangul(this.name[0]);
             KG.SetNewPosRot(false);
         }
