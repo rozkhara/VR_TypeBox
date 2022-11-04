@@ -17,6 +17,7 @@ public class KeyInteractAlt : MonoBehaviour
     private void Awake()
     {
         KG = GameObject.Find("HeadCollider").GetComponent<KeyGen_Cross>();
+        _Keybord = GameObject.Find("InputManager").GetComponent<InputManager>();
     }
     private void Start()
     {

@@ -25,7 +25,11 @@ public class Surroundings : MonoBehaviour
 
     public void OnStartButtonClicked()
     {
+        GameManager.Instance.Timer = 60f;
+        GameManager.Instance.IsGameOver = false;
         Initialize();
+        InputManager.Instance.Initialize();
+        DirectionReset();
         isStarted = true;
     }
 

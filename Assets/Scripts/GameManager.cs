@@ -81,8 +81,6 @@ public class GameManager : MonoBehaviour
             timerText.text = "0.00";
             SoundManager.Instance.PlaySFXSound("BoxingBell3");
 
-            Debug.Log("Hi!");
-
             IsGameOver = true;
 
             homeButton.SetActive(true);

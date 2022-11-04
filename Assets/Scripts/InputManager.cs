@@ -8,7 +8,7 @@ public class InputManager : MonoBehaviour
     public static InputManager Instance { get; private set; }
 
 
-    AutomateKR mAutomateKR = new AutomateKR();
+    AutomateKR mAutomateKR = null;
     string st = AutomateKR.SOUND_TABLE;
     int[,] mv = AutomateKR.MIXED_VOWEL;
     int[,] mjc = AutomateKR.MIXED_JONG_CONSON;
@@ -37,6 +37,10 @@ public class InputManager : MonoBehaviour
             {
                 inputTextField.text = value;
             }
+            else
+            {
+                Debug.Log("InputTextField is Null!");
+            }
         }
         get
         {
@@ -50,8 +54,8 @@ public class InputManager : MonoBehaviour
 
     void Awake()
     {
-        KeyInteract._Keybord = this;
-        KeyInteractAlt._Keybord = this;
+        //KeyInteract._Keybord = this;
+        //KeyInteractAlt._Keybord = this;
         if (Instance == null)
         {
             Instance = this;
@@ -59,25 +63,29 @@ public class InputManager : MonoBehaviour
         }
         else
         {
-            Initialize();
+            // Initialize();
             Destroy(this.gameObject);
         }
-        Instance = this;
     }
 
     private void Start()
     {
-        Initialize();
+        //Initialize();
     }
 
-    private void Initialize()
+    public void Initialize()
     {
         wordData = CSVReader.Read("wordLen");
+
+        mAutomateKR = new AutomateKR();
 
         // random �ܾ key sequeance�� ����
         //KeySequence(wordData[Random.Range(0, wordData.Count)][Random.Range(1, 4).ToString()].ToString());
         UpdateTargetWord();
         DebugNextKey();
+        UpdateNextKey();
+
+        Debug.Log("Target Word : " + targetWord);
 
         TextField = "Enter.";
     }
@@ -97,6 +105,7 @@ public class InputManager : MonoBehaviour
 
     public char GetNextKey()
     {
+        //Debug.Log("Key Cnt : " + keyCnt);
         return targetKeySeq[keyCnt];
     }
 
@@ -104,6 +113,9 @@ public class InputManager : MonoBehaviour
     {
         mAutomateKR.Clear();
         TextField = mAutomateKR.completeText + mAutomateKR.ingWord;
+        completeText = "";
+        idx = 0;
+        wordIdx = 0;
         inputKeySeq = null;
         UpdateNextKey();
     }
@@ -112,6 +124,14 @@ public class InputManager : MonoBehaviour
 
     public void KeyDownHangul(char _key)
     {
+        if (inputTextField == null)
+        {
+            inputTextField = GameObject.Find("InputText").GetComponent<TextMeshProUGUI>();
+            Clear();
+            //UpdateTargetWord();
+            //DebugNextKey();
+        }
+
         if (_key == 'B')
         {
             bool bCheck = false;
@@ -281,10 +301,17 @@ public class InputManager : MonoBehaviour
     void UpdateTargetWord()
     {
         // �ߺ� ���� �ҰŸ� �ߺ� Ȯ�� �Լ�?�� ������ �� �� 
+        if (targetTextField == null)
+        {
+            targetTextField = GameObject.Find("TargetText").GetComponent<TextMeshProUGUI>();
+        }
+
         targetWord = wordData[Random.Range(0, wordData.Count)][Random.Range(1, 4).ToString()].ToString();
         targetTextField.text = string.Copy(targetWord);
         targetKeySeq = KeySequence(targetWord);
         keyCnt = 0;
+
+        Debug.Log("targetKeySeq : " + targetKeySeq.ArrayToString());
         // Debug.Log(targetKeySeq.ArrayToString());
     }
 

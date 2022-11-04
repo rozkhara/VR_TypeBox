@@ -75,7 +75,10 @@ public class KeyGen_Cross : MonoBehaviour
 
     public void OnStartButtonClicked()
     {
+        GameManager.Instance.Timer = 60f;
+        GameManager.Instance.IsGameOver = false;
         Initialize();
+        InputManager.Instance.Initialize();
         DirectionReset();
         isStarted = true;
     }
@@ -152,6 +155,7 @@ public class KeyGen_Cross : MonoBehaviour
             isKeyInstantiatedLeft = true;
         }
         char targetKey = InputManager.Instance.GetNextKey();
+        Debug.Log("Target Key : " + targetKey);
         GameObject go = FlatItemListLeft.Where(x => x.name == targetKey.ToString()).SingleOrDefault();
         int keyNum = FlatItemListLeft.IndexOf(go);
         if (keyNum != -1)

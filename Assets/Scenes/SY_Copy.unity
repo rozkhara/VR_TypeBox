@@ -851,7 +851,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Input
+  m_text: Enter.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9a1b25d31081b63418e868da6f1daf00, type: 2}
   m_sharedMaterial: {fileID: 1505975747034849741, guid: 9a1b25d31081b63418e868da6f1daf00, type: 2}

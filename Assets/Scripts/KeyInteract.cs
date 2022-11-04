@@ -17,6 +17,7 @@ public class KeyInteract : MonoBehaviour
     {
         interactable = GetComponent<Interactable>();
         go = GameObject.Find("HeadCollider");
+        _Keybord = GameObject.Find("InputManager").GetComponent<InputManager>();
         //keyName.text = this.name;
     }
     private void Update()

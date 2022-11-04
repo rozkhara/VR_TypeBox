@@ -13,15 +13,11 @@ public class HomeKey : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            Debug.Log("Sibal!");
             DontDestroyOnLoad(this.gameObject);
         }
         else
         {
             GameManager.Instance.timerText = GameObject.Find("Timer").GetComponent<TextMeshProUGUI>();
-            GameManager.Instance.Timer = 60f;
-            GameManager.Instance.IsGameOver = false;
-            Debug.Log(GameManager.Instance.IsGameOver);
             Destroy(this.gameObject);
         }
     }
