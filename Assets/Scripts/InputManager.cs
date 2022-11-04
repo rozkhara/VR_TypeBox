@@ -87,7 +87,7 @@ public class InputManager : MonoBehaviour
 
         Debug.Log("Target Word : " + targetWord);
 
-        TextField = "Enter.";
+        TextField = "Enter";
     }
 
     void DebugNextKey()
